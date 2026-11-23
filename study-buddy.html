@@ -1,0 +1,348 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Study Buddy · Svitlana Ohar</title><meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Building trust into a tutoring marketplace — case study by Svitlana Ohar."><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap"><style>
+.ico-arr{flex:none;display:inline-block;vertical-align:middle}
+a.btn,.more,a.back,.footer a,footer a,.mail a{display:inline-flex;align-items:center;gap:6px}
+a.back .ico-arr{margin-right:2px}
+
+.about{display:grid;grid-template-columns:1.4fr 1fr;gap:clamp(24px,4vw,64px);align-items:start;padding:clamp(24px,3vw,40px);border-radius:var(--radius);background:var(--surface);border:1px solid var(--line)}
+.about-text{min-width:0}.about-text h2{margin:.2em 0 .6em}.about-text p{max-width:62ch;margin:0}.about-text p+p{margin-top:12px}
+.langs h3{margin:0 0 12px;font:700 15px/1.3 var(--display);text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.langs ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.langs li{display:flex;justify-content:space-between;gap:16px;padding:14px 16px;border-radius:12px;background:var(--bg);border:1px solid var(--line)}
+.langs li b{font-weight:700}.langs li span{color:var(--muted);text-align:right}
+@media (max-width:860px){.about{grid-template-columns:1fr}}
+
+p,li,figcaption,.lead{text-wrap:pretty}
+
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.slot{position:relative;display:inline-block;color:var(--accent);cursor:pointer}
+.slot-w{visibility:hidden}
+.slot-c{position:absolute;left:50%;top:0;transform:translateX(-50%);will-change:transform}
+.slot-c.drop{animation:slotdrop .09s ease-out}
+.slot-c.click{animation:slotclick .42s cubic-bezier(.3,1.7,.5,1)}
+@keyframes slotdrop{from{transform:translate(-50%,-40%);opacity:.2}to{transform:translate(-50%,0);opacity:1}}
+@keyframes slotclick{0%{transform:translate(-50%,-50%) scale(1.3)}100%{transform:translate(-50%,0) scale(1)}}
+@media (prefers-reduced-motion:reduce){.slot-c.drop,.slot-c.click{animation:none}}
+
+/* Layout: one calm column, 1120px max; cards alternate image/text; case pages read like annotated documents. */
+/* Layout: wide calm column (1360px); hero = text + portrait on an orange panel; cards alternate screen / text. */
+:root{
+  --bg:#FFFFFF; --surface:#FAF9F7; --fg:#161412; --muted:#6B6560; --line:#E7E4E0;
+  --accent:#FF4802; --accent-text:#CC3700; --accent-ink:#161412; --accent-soft:#FFE6DA;
+  --display:"Manrope",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --body:"Inter",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --radius:18px; --max:1360px;
+}
+/* DARK THEME OFF (light only for now)
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#121110; --surface:#1C1A18; --fg:#F4F2EF; --muted:#A8A29C; --line:#2C2926;
+  --accent:#FF4802; --accent-text:#FF6A2E; --accent-ink:#161412; --accent-soft:#33190D; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#121110; --surface:#1C1A18; --fg:#F4F2EF; --muted:#A8A29C; --line:#2C2926;
+  --accent:#FF4802; --accent-text:#FF6A2E; --accent-ink:#161412; --accent-soft:#33190D; color-scheme:dark}
+*/
+:root{color-scheme:light}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*{transition:none!important}}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 var(--body);-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:inherit}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
+.wrap{max-width:var(--max);margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.skip{position:absolute;left:-999px;top:8px;background:var(--surface);padding:8px 12px;border-radius:8px;z-index:30}
+.skip:focus{left:16px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+header.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:14px}
+.logo{font:800 17px/1 var(--display);text-decoration:none;letter-spacing:-.01em}
+.nav ul{display:flex;gap:22px;list-style:none;margin:0;padding:0;flex-wrap:wrap}
+.nav ul a{text-decoration:none;font-size:14.5px;color:var(--muted);font-weight:500}
+.nav ul a:hover{color:var(--fg)}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;letter-spacing:-.02em;margin:0}
+h1{font-size:clamp(34px,5.4vw,58px);line-height:1.07;font-weight:800}
+h2{font-size:clamp(26px,3.4vw,36px);line-height:1.15;font-weight:800}
+h3{font-size:21px;line-height:1.3;font-weight:700}
+p{margin:0}
+.eyebrow{font:600 12.5px/1.2 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--accent-text)}
+.lead{font-size:clamp(17px,1.6vw,19px);color:var(--muted);max-width:60ch}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border-radius:999px;font:600 15px/1 var(--body);text-decoration:none;border:1.5px solid var(--accent);cursor:pointer;background:none;color:var(--fg)}
+.btn.primary{background:var(--accent);color:var(--accent-ink)}
+.btn:hover{transform:translateY(-1px)}
+.btns{display:flex;flex-wrap:wrap;gap:12px}
+section{padding-block:clamp(56px,8vw,96px)}
+.sec-head{display:flex;flex-direction:column;gap:10px;margin-bottom:36px}
+/* hero */
+.hero{padding-block:clamp(48px,7vw,88px) clamp(40px,6vw,72px)}
+.hero-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:clamp(28px,5vw,64px);align-items:center}
+.hero-text{display:flex;flex-direction:column;gap:22px;min-width:0}
+.hello{font:600 17px/1.4 var(--body);color:var(--muted)}
+.hello b{color:var(--fg)}
+.roles{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font:500 13px/1 var(--body);padding:7px 11px;border-radius:999px;background:var(--accent-soft);color:var(--fg)}
+.roles-note{font-size:13px;color:var(--muted)}
+.chip.role{border:1px solid transparent;cursor:pointer;font-family:var(--body);color:var(--fg);transition:background .15s,border-color .15s}
+.chip.role:hover{border-color:var(--accent)}
+.chip.role[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);font-weight:600}
+.role-panel{display:flex;gap:16px;align-items:center;padding:12px;border:1px solid var(--line);border-radius:16px;background:var(--surface);text-decoration:none;max-width:560px;transition:border-color .2s}
+.role-panel:hover{border-color:var(--accent)}
+.role-panel img{width:120px;aspect-ratio:16/10;object-fit:cover;border-radius:10px;flex:none}
+.rp-text{display:flex;flex-direction:column;gap:4px;min-width:0;font-size:14.5px}
+.rp-eyebrow{font:600 11.5px/1.3 var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--accent-text)}
+.rp-text .more{font-size:14px}
+.role-panel.swap{animation:rp .28s ease}
+@keyframes rp{from{opacity:.35;transform:translateY(4px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion: reduce){.role-panel.swap{animation:none}}
+@media (max-width:520px){.role-panel img{width:88px}}
+
+.portrait{position:relative;aspect-ratio:1/1;max-width:360px;width:100%;justify-self:end;border-radius:28px;background:var(--accent);overflow:hidden;display:grid;place-items:center}
+.portrait img{width:100%;height:100%;object-fit:cover}
+.portrait .ph{font:800 64px/1 var(--display);color:var(--accent-ink);opacity:.85}
+/* expertise */
+.exp{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.exp article{display:flex;flex-direction:column;gap:12px;padding:28px;background:var(--surface);border-radius:var(--radius);min-width:0}
+.exp .ico{width:44px;height:44px;border-radius:12px;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font:800 18px/1 var(--display)}
+.exp p{color:var(--muted)}
+/* projects */
+.projects{display:flex;flex-direction:column;gap:20px}
+.card{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,4vw,56px);align-items:stretch;padding:clamp(18px,2.2vw,28px);background:var(--surface);border:1px solid var(--line);border-radius:var(--radius)}
+
+.card-img{display:block;overflow:hidden;border-radius:10px}
+.card-img{position:relative;align-self:stretch}
+.card-img::before{content:"";display:block;padding-top:62.5%}
+.card-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity .45s ease,transform .6s ease}
+.card-img img.hv{position:absolute;inset:0;height:100%;opacity:0;transform:scale(1.02)}
+.card:hover .card-img img.hv,.card-img:focus-visible img.hv{opacity:1;transform:none}
+@media (hover:none){.card-img img.hv{display:none}}
+.card{grid-template-columns:.95fr 1.05fr}
+.card-img{order:2}
+
+.card-body{display:flex;flex-direction:column;gap:14px;min-width:0;align-self:stretch}
+.card-body>.more{margin-top:auto;padding-top:8px}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0}
+.tag{display:inline-block;box-sizing:border-box;padding:7.8px calc(11.5px - .06em) 7.8px 12px;font:600 11.5px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;color:var(--accent-text);border:1px solid var(--accent);border-radius:999px;text-box:trim-both cap alphabetic;white-space:nowrap}
+.card-body p{color:var(--muted)}
+.facts{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;font-variant-numeric:tabular-nums}
+.facts li{font-weight:600;font-size:15px;line-height:22px;display:flex;align-items:flex-start}
+.facts li span{flex:none;width:6px;height:6px;border-radius:50%;background:var(--accent);margin:8.5px 12px 0 0}
+.more{font-weight:600;color:var(--accent-text);text-decoration:none}
+.more:hover{text-decoration:underline}
+/* testimonial */
+.quote{display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:start;max-width:860px}
+.qmark{font:800 72px/0.8 var(--display);color:var(--accent-text)}
+blockquote{margin:0;display:flex;flex-direction:column;gap:18px}
+blockquote p{font:600 clamp(19px,2.1vw,24px)/1.45 var(--display);letter-spacing:-.01em}
+.who{font-size:15px;color:var(--muted)}
+.who b{color:var(--fg)}
+/* contact */
+.contact{background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.contact .wrap{display:flex;flex-direction:column;gap:22px}
+.mail{display:flex;flex-wrap:wrap;align-items:center;gap:12px}
+.mail code{font:600 clamp(17px,2.4vw,24px)/1.3 var(--display);user-select:all;word-break:break-all}
+.copied{font-size:14px;color:var(--accent-text)}
+footer{padding-block:28px;color:var(--muted);font-size:14px}
+footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+/* case pages */
+.case-hero{padding-block:clamp(40px,6vw,72px) 32px}
+.case-hero .wrap{display:flex;flex-direction:column;gap:20px}
+.back{font-size:14.5px;color:var(--muted);text-decoration:none;font-weight:500}
+.back:hover{color:var(--fg)}
+.meta{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;padding-block:22px;border-block:1px solid var(--line);margin-top:8px}
+.meta div{display:flex;flex-direction:column;gap:4px;min-width:0}
+.meta dt{font:600 11.5px/1.2 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.meta dd{margin:0;font-weight:600;font-size:15px}
+.figure{margin:0;display:flex;flex-direction:column;gap:10px}
+.figure img{width:100%;border-radius:12px;border:1px solid var(--line);background:var(--surface)}
+.figure figcaption{font-size:13.5px;color:var(--muted)}
+.figs{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+.figs.narrow{grid-template-columns:1.4fr 1fr}
+.block{display:grid;grid-template-columns:280px 1fr;gap:clamp(20px,4vw,56px);padding-block:clamp(36px,5vw,56px);border-top:1px solid var(--line)}
+.block > h2{font-size:clamp(22px,2.4vw,28px)}
+.block-body{display:flex;flex-direction:column;gap:18px;min-width:0}
+.block-body p{max-width:66ch}
+.stat{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.stat b{font:800 clamp(30px,4vw,44px)/1 var(--display);color:var(--accent-text);font-variant-numeric:tabular-nums}
+.stat span{color:var(--muted);max-width:44ch;line-height:1.45}
+.note{border-left:3px solid var(--accent);padding:4px 0 4px 16px;color:var(--muted);max-width:66ch}
+.note b{color:var(--fg)}
+.steps{display:flex;flex-wrap:wrap;gap:8px}
+.next{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding:24px;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);text-decoration:none}
+.next:hover{border-color:var(--accent)}
+.next small{display:block;color:var(--muted);font-size:13px;margin-bottom:4px}
+@media (max-width:860px){
+  .hero-grid,.card,.block{grid-template-columns:1fr}
+  .card-img{order:0}
+  .portrait{justify-self:start;max-width:360px}
+  .exp{grid-template-columns:1fr}
+  .meta{grid-template-columns:1fr 1fr}
+  .figs,.figs.narrow{grid-template-columns:1fr}
+  .nav ul{gap:14px}
+}
+@media (max-width:520px){.nav ul li.hide-s{display:none}.quote{grid-template-columns:1fr}.qmark{font-size:56px}}
+
+.summary{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:28px 40px;padding:32px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius)}
+.summary h3{font:600 12px/1.2 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.summary ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px}
+.summary p{font-weight:500}
+.summary .impact{grid-column:1 / -1;display:grid;grid-template-columns:repeat(2,1fr);gap:20px;padding-top:24px;border-top:1px solid var(--line)}
+.kpi{display:flex;align-items:center;gap:16px}
+.kpi b{font:800 clamp(28px,3.2vw,40px)/1 var(--display);color:var(--accent-text);white-space:nowrap;font-variant-numeric:tabular-nums}
+.kpi span{color:var(--muted);font-size:15px;line-height:1.45}
+.skills{display:flex;flex-wrap:wrap;gap:6px}
+.skills .chip{font-size:12.5px}
+.problems{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.problems li{padding:24px;border-radius:var(--radius);background:var(--surface);border:1px solid var(--line);display:flex;flex-direction:column;gap:10px}
+.problems .n{font:800 15px/1 var(--display);color:var(--accent-text)}
+.problems b{font:700 18px/1.3 var(--display)}
+.problems span{color:var(--muted)}
+.matrix-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius);background:var(--bg)}
+table.matrix{border-collapse:collapse;width:100%;min-width:720px;font-size:14.5px}
+.matrix th,.matrix td{padding:13px 16px;text-align:center;border-bottom:1px solid var(--line)}
+.matrix th:first-child,.matrix td:first-child{text-align:left}
+.matrix thead th{font-weight:700;font-size:14px}
+.matrix thead small{display:block;font-weight:500;color:var(--muted);font-size:12px}
+.matrix .us{background:var(--accent-soft)}
+.matrix tr:last-child td{border-bottom:0}
+.dot{display:inline-block;width:16px;height:16px;border-radius:50%;background:var(--accent);vertical-align:middle}
+.dot.half{background:linear-gradient(90deg,var(--accent) 50%,transparent 50%);box-shadow:inset 0 0 0 2px var(--accent)}
+.dot.no{width:14px;height:2px;border-radius:2px;background:var(--line)}
+.legend{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--muted);align-items:center}
+.findings{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.finding{padding:22px;border-radius:var(--radius);border:1px solid var(--line);background:var(--surface);display:flex;flex-direction:column;gap:10px}
+.finding .row{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.finding .n{width:30px;height:30px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font:800 14px/1 var(--display)}
+.finding .sev{font:600 11.5px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;color:var(--accent-text);border:1px solid var(--accent);border-radius:999px;padding:6px 10px}
+.finding b{font:700 17px/1.3 var(--display)}
+.finding p{color:var(--muted)}
+.finding p em{font-style:normal;color:var(--fg);font-weight:600}
+.lessons{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.lessons div{display:flex;flex-direction:column;gap:8px}
+.lessons h3{font-size:18px}
+.lessons p{color:var(--muted)}
+.cta{display:flex;flex-direction:column;gap:16px;padding:32px;border-radius:var(--radius);background:var(--surface);border:1px solid var(--line)}
+
+.ba{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+.ba .figure{gap:12px}
+.ba .lbl{align-self:flex-start;font:600 11.5px/1 var(--body);letter-spacing:.08em;text-transform:uppercase;padding:7px 12px;border-radius:999px;border:1px solid var(--line);color:var(--muted)}
+.ba .after .lbl{border-color:var(--accent);color:var(--accent-text)}
+@media (max-width:860px){.ba{grid-template-columns:1fr}}
+@media (max-width:860px){.summary{grid-template-columns:1fr}.summary .impact{grid-template-columns:1fr}.problems,.lessons,.findings{grid-template-columns:1fr}}
+
+.summary .impact.three{grid-template-columns:repeat(3,1fr)}
+.decisions{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.decisions div{padding:20px;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface)}
+.decisions h3{margin:0 0 6px;font:700 17px/1.3 var(--display)}
+.decisions p{margin:0;color:var(--muted);font-size:15px}
+@media (max-width:860px){.summary .impact.three,.decisions{grid-template-columns:1fr}}
+</style></head><body><a class="skip" href="#main">Skip to&nbsp;content</a>
+<header class="nav"><div class="wrap"><a class="logo" href="index.html">Svitlana Ohar</a>
+<nav aria-label="Main"><ul><li class="hide-s"><a href="index.html#expertise">Expertise</a></li><li><a href="index.html#projects">Projects</a></li><li class="hide-s"><a href="index.html#testimonial">Testimonial</a></li><li class="hide-s"><a href="index.html#about">About</a></li><li><a href="index.html#contact">Contact</a></li></ul></nav></div></header>
+<main id="main">
+<div class="case-hero"><div class="wrap">
+<a class="back" href="index.html#projects"><svg class="ico-arr" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 8H3M7 4L3 8l4 4"/></svg>All projects</a>
+<div class="tags"><span class="tag">Marketplace</span><span class="tag">EdTech</span><span class="tag">Web platform</span><span class="tag">With&nbsp;a&nbsp;Design Lead</span></div>
+<h1>Building trust into&nbsp;a&nbsp;tutoring marketplace</h1>
+<p class="lead">Study Buddy is&nbsp;a&nbsp;marketplace where students find a&nbsp;tutor, book and&nbsp;pay for&nbsp;lessons in&nbsp;one place. Research showed that&nbsp;tutors leave existing platforms because of&nbsp;unfair fees and&nbsp;payment risks, not&nbsp;the&nbsp;interface. So&nbsp;we built fair rules into&nbsp;the&nbsp;product&nbsp;— and&nbsp;I&nbsp;designed the&nbsp;whole product for&nbsp;both sides, desktop and&nbsp;mobile, until it&nbsp;went into&nbsp;development.</p>
+<figure class="figure"><img src="img/pv-study-buddy.jpg" alt="Study Buddy booking and payment screen with payment held until the lesson" loading="lazy"></figure>
+</div></div>
+<div class="wrap">
+
+<section class="block" aria-labelledby="s-sum"><h2 id="s-sum">Summary</h2><div class="block-body">
+<div class="summary">
+<div><h3>Objectives</h3><ul><li>Make it&nbsp;easy for&nbsp;students to&nbsp;find and&nbsp;book a&nbsp;tutor they can trust.</li><li>Make the&nbsp;platform fair enough that&nbsp;tutors want to&nbsp;stay.</li><li>Remove payment risk for&nbsp;both sides.</li></ul></div>
+<div><h3>Role</h3><p>UI/UX designer, whole product</p><p style="font-weight:400;color:var(--muted)">Research with&nbsp;the&nbsp;Design Lead, personas, flows, UI, states, mobile, handoff. The&nbsp;Design Lead reviewed my&nbsp;work.</p></div>
+<div><h3>Period &amp;&nbsp;team</h3><p>About one year, from&nbsp;early 2023</p><p style="font-weight:400;color:var(--muted)">Me and&nbsp;a&nbsp;Design Lead; developers once the&nbsp;build started. Russian-speaking market.</p></div>
+<div style="grid-column:1 / -1"><h3>Key skills</h3><div class="skills"><span class="chip">Surveys</span><span class="chip">In-depth interviews</span><span class="chip">Competitive analysis</span><span class="chip">Service rules</span><span class="chip">Marketplace flows</span><span class="chip">Onboarding</span><span class="chip">States &amp;&nbsp;edge cases</span><span class="chip">Developer handoff</span></div></div>
+<div class="impact three">
+<div class="kpi"><b>83</b><span>people surveyed&nbsp;— 68&nbsp;students and&nbsp;parents, 15&nbsp;tutors&nbsp;— plus 2&nbsp;in-depth interviews.</span></div>
+<div class="kpi"><b>6&nbsp;of&nbsp;7</b><span>tutors with&nbsp;platform experience named the&nbsp;commission as&nbsp;the&nbsp;main downside.</span></div>
+<div class="kpi"><b>17</b><span>tutor scenarios and&nbsp;the&nbsp;student journey, desktop and&nbsp;mobile, handed to&nbsp;development.</span></div>
+</div></div></div></section>
+
+<section class="block" aria-labelledby="s-prob"><h2 id="s-prob">Three sides of&nbsp;one problem</h2><div class="block-body">
+<ol class="problems">
+<li><span class="n">01</span><b>Students can't trust the&nbsp;choice</b><span>Finding a&nbsp;tutor depends on&nbsp;personal recommendations, prices vary wildly, and&nbsp;there are&nbsp;no&nbsp;ratings they can trust.</span></li>
+<li><span class="n">02</span><b>Tutors pay and&nbsp;risk too much</b><span>Paid responses, large upfront fees for&nbsp;every new student, rating penalties for&nbsp;declining a&nbsp;request, and&nbsp;the&nbsp;risk of&nbsp;not&nbsp;being paid.</span></li>
+<li><span class="n">03</span><b>The&nbsp;business needs tutors first</b><span>Without tutors there is&nbsp;nothing for&nbsp;students to&nbsp;choose from, so&nbsp;the&nbsp;platform has to&nbsp;win tutors over.</span></li>
+</ol></div></section>
+
+<section class="block" aria-labelledby="s-res"><h2 id="s-res">What research changed</h2><div class="block-body">
+<p>Together with&nbsp;the&nbsp;Design Lead, I&nbsp;ran two Google Forms surveys with&nbsp;branching logic (13–26&nbsp;questions)&nbsp;— 68&nbsp;students and&nbsp;parents, 15&nbsp;tutors&nbsp;— and&nbsp;two in-depth interviews with&nbsp;experienced tutors, 50&nbsp;and&nbsp;60&nbsp;minutes each, which we turned into&nbsp;two personas. We also collected 15+ competitors and&nbsp;reviewed 8&nbsp;direct tutoring platforms screen by&nbsp;screen.</p>
+<figure class="figure"><img src="img/sb-survey.jpg" alt="Selected survey results" loading="lazy"><figcaption>Selected survey results</figcaption></figure>
+<figure class="figure"><img src="img/sb-compet-board.jpg" alt="Competitor analysis board: page map and annotated screens (notes in Russian)" loading="lazy"><figcaption>Competitor analysis board: page map and&nbsp;annotated screens (notes in&nbsp;Russian)</figcaption></figure>
+<p>We expected tutors to&nbsp;complain about inconvenient interfaces. Instead, almost every pain point was about <b>money, trust and&nbsp;risk</b>:</p>
+<div class="findings"><div class="finding"><div class="row"><span class="n">1</span></div><b>Fees eat the&nbsp;income</b><p>6&nbsp;of&nbsp;7&nbsp;tutors who had used platforms named the&nbsp;commission as&nbsp;the&nbsp;main downside. One paid about 6,000&nbsp;₽ upfront for&nbsp;a&nbsp;student whose lesson cost 1,700&nbsp;₽&nbsp;— and&nbsp;lost it&nbsp;when the&nbsp;student stopped after two lessons.</p></div><div class="finding"><div class="row"><span class="n">2</span></div><b>Word of&nbsp;mouth wins</b><p>93% of&nbsp;tutors get students through recommendations, and&nbsp;85% of&nbsp;students found their tutor the&nbsp;same way. Tutors leave platforms once they have enough students.</p></div><div class="finding"><div class="row"><span class="n">3</span></div><b>Students choose by&nbsp;trust</b><p>8&nbsp;in&nbsp;10&nbsp;choose a&nbsp;tutor by&nbsp;rating and&nbsp;reviews, and&nbsp;half by&nbsp;specialisation&nbsp;— exam prep, olympiads, help with&nbsp;a&nbsp;topic.</p></div><div class="finding"><div class="row"><span class="n">4</span></div><b>Fear of&nbsp;not&nbsp;being paid</b><p>Tutors worry about unpaid lessons and&nbsp;feel uncomfortable reminding parents about money.</p></div><div class="finding"><div class="row"><span class="n">5</span></div><b>Cancellations mean lost income</b><p>A&nbsp;cancelled lesson costs money, and&nbsp;on&nbsp;other platforms declining a&nbsp;request lowers the&nbsp;rating.</p></div></div>
+<p class="note"><b>Limits.</b> Professional tutor chats refused to&nbsp;post the&nbsp;survey because the&nbsp;project was commercial, so&nbsp;the&nbsp;tutor sample stayed small (15), and&nbsp;students were surveyed but&nbsp;not&nbsp;interviewed.</p>
+</div></section>
+
+<section class="block" aria-labelledby="s-dec"><h2 id="s-dec">Fair rules as&nbsp;product decisions</h2><div class="block-body">
+<div class="decisions">
+<div><h3>Commission per&nbsp;lesson, not&nbsp;paid responses</h3><p>Tutors pay only for&nbsp;completed lessons, and&nbsp;the&nbsp;commission goes down as&nbsp;they grow&nbsp;— to&nbsp;12% at&nbsp;the&nbsp;top level. A&nbsp;profile from&nbsp;another site unlocks the&nbsp;top level for&nbsp;the&nbsp;first month.</p></div>
+<div><h3>Payment through the&nbsp;platform</h3><p>Paying directly is&nbsp;simpler, but&nbsp;it's what tutors fear. The&nbsp;money is&nbsp;reserved before the&nbsp;lesson and&nbsp;goes to&nbsp;the&nbsp;tutor after it, so&nbsp;nobody has to&nbsp;remind anyone.</p></div>
+<div><h3>A&nbsp;light “Offers” tab</h3><p>Students can offer an&nbsp;order to&nbsp;tutors from&nbsp;the&nbsp;catalog and&nbsp;see each status&nbsp;— but&nbsp;can cancel any time and&nbsp;are&nbsp;never blocked from&nbsp;choosing a&nbsp;tutor who already responded.</p></div>
+<div><h3>Several lesson formats per&nbsp;request</h3><p>67% of&nbsp;surveyed tutors teach online, so&nbsp;a&nbsp;request can include several formats, with&nbsp;the&nbsp;number of&nbsp;available tutors next to&nbsp;each option.</p></div>
+</div>
+<p><b>Left out of&nbsp;the&nbsp;first version:</b> built-in video calls (lessons ran through third-party services via&nbsp;a&nbsp;link) and&nbsp;complex payouts for&nbsp;companies&nbsp;— 93% of&nbsp;surveyed tutors work informally.</p>
+</div></section>
+
+<section class="block" aria-labelledby="s-find"><h2 id="s-find">Choosing a&nbsp;tutor by&nbsp;trust</h2><div class="block-body">
+<p>The&nbsp;catalog puts what students choose by&nbsp;up front: rating and&nbsp;number of&nbsp;reviews, subjects, formats and&nbsp;location, education and&nbsp;experience, specialisation tags and&nbsp;a&nbsp;weekly availability grid&nbsp;— with&nbsp;price and&nbsp;two clear actions, Message or&nbsp;Offer an&nbsp;order.</p>
+<figure class="figure"><img src="img/sb-c-catalog.jpg" alt="Tutor catalog with filters, rating, specialisation tags and availability" loading="lazy"><figcaption>Tutor catalog with&nbsp;filters, rating, specialisation tags and&nbsp;availability</figcaption></figure>
+<p>The&nbsp;tutor page adds a&nbsp;video introduction, the&nbsp;full description, schedule, reviews, résumé and&nbsp;subjects, with&nbsp;the&nbsp;price and&nbsp;actions fixed on&nbsp;the&nbsp;right.</p>
+<figure class="figure"><img src="img/sb-c-tutor.jpg" alt="Tutor page with video, details and fixed actions" loading="lazy"><figcaption>Tutor page with&nbsp;video, details and&nbsp;fixed actions</figcaption></figure>
+<p class="note"><b>Language.</b> The&nbsp;product was built in&nbsp;Russian. I&nbsp;translated these two screens into&nbsp;English for&nbsp;this&nbsp;portfolio; the&nbsp;other screens show the&nbsp;original interface.</p>
+</div></section>
+
+<section class="block" aria-labelledby="s-req"><h2 id="s-req">A&nbsp;request, one question at&nbsp;a&nbsp;time</h2><div class="block-body">
+<p>Instead of&nbsp;a&nbsp;long form, the&nbsp;request asks one question per&nbsp;step, with&nbsp;earlier answers visible on&nbsp;the&nbsp;left. The&nbsp;number of&nbsp;matching tutors updates with&nbsp;every answer, each option shows how many tutors fit, and&nbsp;hints appear at&nbsp;the&nbsp;right moment. Experience and&nbsp;price are&nbsp;chosen together, so&nbsp;expectations are&nbsp;set before tutors respond.</p>
+<figure class="figure"><img src="img/sb-c-request.jpg" alt="Creating a request: the task, then experience and price" loading="lazy"><figcaption>Creating a&nbsp;request: the&nbsp;task, then experience and&nbsp;price</figcaption></figure>
+</div></section>
+
+<section class="block" aria-labelledby="s-order"><h2 id="s-order">Responses, offers and&nbsp;price in&nbsp;one place</h2><div class="block-body">
+<p>The&nbsp;order page has three tabs&nbsp;— responses, offers sent from&nbsp;the&nbsp;catalog and&nbsp;a&nbsp;catalog of&nbsp;tutors who fit the&nbsp;order&nbsp;— and&nbsp;the&nbsp;student controls whether it&nbsp;is&nbsp;open for&nbsp;new responses. In&nbsp;the&nbsp;chat, a&nbsp;tutor names a&nbsp;price and&nbsp;the&nbsp;student can choose them in&nbsp;one tap.</p>
+<figure class="figure"><img src="img/sb-c-order.jpg" alt="Order page with tutors for this order; chat with a price to choose" loading="lazy"><figcaption>Order page with&nbsp;tutors for&nbsp;this&nbsp;order; chat with&nbsp;a&nbsp;price to&nbsp;choose</figcaption></figure>
+</div></section>
+
+<section class="block" aria-labelledby="s-pay"><h2 id="s-pay">Payment that&nbsp;protects both sides</h2><div class="block-body">
+<p>The&nbsp;payment screen states the&nbsp;guarantees in&nbsp;plain words: the&nbsp;money is&nbsp;reserved, the&nbsp;tutor gets it&nbsp;only after the&nbsp;lesson, and&nbsp;it&nbsp;is&nbsp;returned if&nbsp;the&nbsp;lesson doesn't happen. Paying by&nbsp;QR code (SBP) gives a&nbsp;3% discount.</p>
+<figure class="figure"><img src="img/sb-pay.jpg" alt="Payment held by the platform until the lesson" loading="lazy"><figcaption>Payment held by&nbsp;the&nbsp;platform until the&nbsp;lesson</figcaption></figure>
+</div></section>
+
+<section class="block" aria-labelledby="s-les"><h2 id="s-les">Lessons and&nbsp;honest reviews</h2><div class="block-body">
+<p>“My&nbsp;lessons” highlights today's lesson with&nbsp;a&nbsp;Start button and&nbsp;lists upcoming and&nbsp;past lessons. After the&nbsp;lesson, the&nbsp;recording is&nbsp;saved and&nbsp;the&nbsp;student is&nbsp;asked to&nbsp;rate it&nbsp;and&nbsp;leave a&nbsp;review&nbsp;— so&nbsp;reviews come only from&nbsp;students who actually had a&nbsp;lesson.</p>
+<figure class="figure"><img src="img/sb-c-lessons.jpg" alt="My lessons with today’s lesson; rating and review after the lesson" loading="lazy"><figcaption>My&nbsp;lessons with&nbsp;today’s lesson; rating and&nbsp;review after the&nbsp;lesson</figcaption></figure>
+</div></section>
+
+<section class="block" aria-labelledby="s-tutor"><h2 id="s-tutor">For&nbsp;tutors: fair earnings, visible upfront</h2><div class="block-body">
+<p>Tutors fill in&nbsp;a&nbsp;long profile, so&nbsp;I&nbsp;split it&nbsp;into&nbsp;10&nbsp;one-question steps with&nbsp;a&nbsp;side stepper. Goals per&nbsp;subject become tags on&nbsp;the&nbsp;tutor card, the&nbsp;home address stays private and&nbsp;is&nbsp;used only to&nbsp;find nearby orders, and&nbsp;every goal gets its&nbsp;own price.</p>
+<p>The&nbsp;earnings step shows the&nbsp;level system: every completed lesson earns points, and&nbsp;the&nbsp;higher the&nbsp;level, the&nbsp;lower the&nbsp;commission&nbsp;— down to&nbsp;12%. A&nbsp;link to&nbsp;a&nbsp;profile on&nbsp;another site unlocks the&nbsp;top level for&nbsp;a&nbsp;month.</p>
+<figure class="figure"><img src="img/sb-c-earn.jpg" alt="Tutor onboarding, step 9: level, commission and prices per goal" loading="lazy"><figcaption>Tutor onboarding, step 9: level, commission and&nbsp;prices per&nbsp;goal</figcaption></figure>
+<p>Finding orders was the&nbsp;most common difficulty for&nbsp;tutors (53%). Order search is&nbsp;pre-filled from&nbsp;the&nbsp;profile, new orders arrive live, and&nbsp;titles come from&nbsp;the&nbsp;student's answer to&nbsp;“What do you need help with?”. Personal offers from&nbsp;students have their own tab, with&nbsp;Respond and&nbsp;Decline.</p>
+<figure class="figure"><img src="img/sb-c-orders.jpg" alt="Order search with filters; offers from students" loading="lazy"><figcaption>Order search with&nbsp;filters; offers from&nbsp;students</figcaption></figure>
+</div></section>
+
+<section class="block" aria-labelledby="s-mob"><h2 id="s-mob">Mobile, states and&nbsp;handoff</h2><div class="block-body">
+<p>Key tutor flows were also designed for&nbsp;360&nbsp;px. Every scenario came with&nbsp;its&nbsp;states&nbsp;— skeleton loading, empty states that&nbsp;say what to&nbsp;do next, and&nbsp;inline validation&nbsp;— and&nbsp;a&nbsp;navigation page listed all 17&nbsp;tutor scenarios with&nbsp;a&nbsp;status for&nbsp;each, which kept a&nbsp;year-long project clear for&nbsp;the&nbsp;Design Lead, the&nbsp;business and&nbsp;later the&nbsp;developers.</p>
+<figure class="figure"><img src="img/sb-c-mobile.jpg" alt="Mobile: order search and tutor sign-up" loading="lazy"><figcaption>Mobile: order search and&nbsp;tutor sign-up</figcaption></figure>
+</div></section>
+
+<section class="block" aria-labelledby="s-iter"><h2 id="s-iter">A&nbsp;simplification that&nbsp;confused people</h2><div class="block-body">
+<p><b>Before:</b> every line of&nbsp;the&nbsp;tutor card had a&nbsp;long label, and&nbsp;the&nbsp;location line listed every format and&nbsp;metro station&nbsp;— heavy to&nbsp;scan in&nbsp;a&nbsp;long catalog. <b>Tried:</b> removing the&nbsp;labels. But&nbsp;for&nbsp;online-only tutors the&nbsp;line now said just “Online”&nbsp;— easy to&nbsp;read as&nbsp;“online right now”, next to&nbsp;the&nbsp;status by&nbsp;the&nbsp;name. <b>Final:</b> short labels came back (“Where: Online +2”), and&nbsp;the&nbsp;“About the&nbsp;tutor” heading went, so&nbsp;the&nbsp;tutor's own words start right away.</p>
+<figure class="figure"><img src="img/sb-iter.jpg" alt="Tutor cards across three versions" loading="lazy"><figcaption>Tutor cards across three versions</figcaption></figure>
+<p class="note"><b>Lesson.</b> Removing labels makes a&nbsp;card look cleaner, but&nbsp;short labels are&nbsp;often what keeps it&nbsp;understandable.</p>
+</div></section>
+
+<section class="block" aria-labelledby="s-learn"><h2 id="s-learn">What I&nbsp;learned</h2><div class="block-body">
+<div class="lessons">
+<div><h3>Numbers plus stories</h3><p>Surveys showed what was happening, interviews explained why&nbsp;— together they showed the&nbsp;real problem was the&nbsp;business model, not&nbsp;the&nbsp;interface.</p></div>
+<div><h3>Plan recruitment early</h3><p>Reaching tutors was hard. Next time I&nbsp;would plan recruitment earlier and&nbsp;test onboarding with&nbsp;real tutors before handoff.</p></div>
+<div><h3>Document for&nbsp;the&nbsp;team</h3><p>A&nbsp;year with&nbsp;a&nbsp;Design Lead taught me to&nbsp;document decisions, prepare flows for&nbsp;review and&nbsp;keep a&nbsp;large file clear.</p></div>
+</div>
+<p class="note"><b>Status.</b> The&nbsp;product went into&nbsp;development and&nbsp;I&nbsp;supported the&nbsp;team with&nbsp;design changes during that&nbsp;stage. I&nbsp;left before the&nbsp;public launch, so&nbsp;I&nbsp;don't have usage metrics.</p>
+</div></section>
+
+<div class="cta" style="margin-block:24px 24px"><h2>Looking for&nbsp;a&nbsp;UI/UX designer in&nbsp;Sweden?</h2><div class="btns"><a class="btn primary" href="index.html#contact">Get in&nbsp;touch</a><a class="btn" href="https://www.linkedin.com/in/svitlana-ohar-859025243/" target="_blank" rel="noopener">LinkedIn<svg class="ico-arr" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11L11 5M6 5h5v5"/></svg></a></div></div>
+<div style="padding-block:8px 72px"><a class="next" href="asian-tt-league.html"><span><small>Next project</small><b style="font:700 20px var(--display)">Asian TT League&nbsp;— Moving tournaments from&nbsp;phone calls to&nbsp;one platform</b></span><span class="more"><svg class="ico-arr" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></a></div>
+</div></main>
+<footer><div class="wrap"><span>© 2026&nbsp;Svitlana Ohar · UI/UX Designer · Stockholm</span><a href="https://www.linkedin.com/in/svitlana-ohar-859025243/" target="_blank" rel="noopener">LinkedIn<svg class="ico-arr" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11L11 5M6 5h5v5"/></svg></a></div></footer></body></html>

@@ -1,0 +1,353 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Asian TT League · Svitlana Ohar</title><meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Moving tournaments from phone calls to one platform — case study by Svitlana Ohar."><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap"><style>
+.ico-arr{flex:none;display:inline-block;vertical-align:middle}
+a.btn,.more,a.back,.footer a,footer a,.mail a{display:inline-flex;align-items:center;gap:6px}
+a.back .ico-arr{margin-right:2px}
+
+.about{display:grid;grid-template-columns:1.4fr 1fr;gap:clamp(24px,4vw,64px);align-items:start;padding:clamp(24px,3vw,40px);border-radius:var(--radius);background:var(--surface);border:1px solid var(--line)}
+.about-text{min-width:0}.about-text h2{margin:.2em 0 .6em}.about-text p{max-width:62ch;margin:0}.about-text p+p{margin-top:12px}
+.langs h3{margin:0 0 12px;font:700 15px/1.3 var(--display);text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.langs ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.langs li{display:flex;justify-content:space-between;gap:16px;padding:14px 16px;border-radius:12px;background:var(--bg);border:1px solid var(--line)}
+.langs li b{font-weight:700}.langs li span{color:var(--muted);text-align:right}
+@media (max-width:860px){.about{grid-template-columns:1fr}}
+
+p,li,figcaption,.lead{text-wrap:pretty}
+
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.slot{position:relative;display:inline-block;color:var(--accent);cursor:pointer}
+.slot-w{visibility:hidden}
+.slot-c{position:absolute;left:50%;top:0;transform:translateX(-50%);will-change:transform}
+.slot-c.drop{animation:slotdrop .09s ease-out}
+.slot-c.click{animation:slotclick .42s cubic-bezier(.3,1.7,.5,1)}
+@keyframes slotdrop{from{transform:translate(-50%,-40%);opacity:.2}to{transform:translate(-50%,0);opacity:1}}
+@keyframes slotclick{0%{transform:translate(-50%,-50%) scale(1.3)}100%{transform:translate(-50%,0) scale(1)}}
+@media (prefers-reduced-motion:reduce){.slot-c.drop,.slot-c.click{animation:none}}
+
+/* Layout: one calm column, 1120px max; cards alternate image/text; case pages read like annotated documents. */
+/* Layout: wide calm column (1360px); hero = text + portrait on an orange panel; cards alternate screen / text. */
+:root{
+  --bg:#FFFFFF; --surface:#FAF9F7; --fg:#161412; --muted:#6B6560; --line:#E7E4E0;
+  --accent:#FF4802; --accent-text:#CC3700; --accent-ink:#161412; --accent-soft:#FFE6DA;
+  --display:"Manrope",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --body:"Inter",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --radius:18px; --max:1360px;
+}
+/* DARK THEME OFF (light only for now)
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#121110; --surface:#1C1A18; --fg:#F4F2EF; --muted:#A8A29C; --line:#2C2926;
+  --accent:#FF4802; --accent-text:#FF6A2E; --accent-ink:#161412; --accent-soft:#33190D; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#121110; --surface:#1C1A18; --fg:#F4F2EF; --muted:#A8A29C; --line:#2C2926;
+  --accent:#FF4802; --accent-text:#FF6A2E; --accent-ink:#161412; --accent-soft:#33190D; color-scheme:dark}
+*/
+:root{color-scheme:light}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*{transition:none!important}}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 var(--body);-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:inherit}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
+.wrap{max-width:var(--max);margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.skip{position:absolute;left:-999px;top:8px;background:var(--surface);padding:8px 12px;border-radius:8px;z-index:30}
+.skip:focus{left:16px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+header.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:14px}
+.logo{font:800 17px/1 var(--display);text-decoration:none;letter-spacing:-.01em}
+.nav ul{display:flex;gap:22px;list-style:none;margin:0;padding:0;flex-wrap:wrap}
+.nav ul a{text-decoration:none;font-size:14.5px;color:var(--muted);font-weight:500}
+.nav ul a:hover{color:var(--fg)}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;letter-spacing:-.02em;margin:0}
+h1{font-size:clamp(34px,5.4vw,58px);line-height:1.07;font-weight:800}
+h2{font-size:clamp(26px,3.4vw,36px);line-height:1.15;font-weight:800}
+h3{font-size:21px;line-height:1.3;font-weight:700}
+p{margin:0}
+.eyebrow{font:600 12.5px/1.2 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--accent-text)}
+.lead{font-size:clamp(17px,1.6vw,19px);color:var(--muted);max-width:60ch}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border-radius:999px;font:600 15px/1 var(--body);text-decoration:none;border:1.5px solid var(--accent);cursor:pointer;background:none;color:var(--fg)}
+.btn.primary{background:var(--accent);color:var(--accent-ink)}
+.btn:hover{transform:translateY(-1px)}
+.btns{display:flex;flex-wrap:wrap;gap:12px}
+section{padding-block:clamp(56px,8vw,96px)}
+.sec-head{display:flex;flex-direction:column;gap:10px;margin-bottom:36px}
+/* hero */
+.hero{padding-block:clamp(48px,7vw,88px) clamp(40px,6vw,72px)}
+.hero-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:clamp(28px,5vw,64px);align-items:center}
+.hero-text{display:flex;flex-direction:column;gap:22px;min-width:0}
+.hello{font:600 17px/1.4 var(--body);color:var(--muted)}
+.hello b{color:var(--fg)}
+.roles{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font:500 13px/1 var(--body);padding:7px 11px;border-radius:999px;background:var(--accent-soft);color:var(--fg)}
+.roles-note{font-size:13px;color:var(--muted)}
+.chip.role{border:1px solid transparent;cursor:pointer;font-family:var(--body);color:var(--fg);transition:background .15s,border-color .15s}
+.chip.role:hover{border-color:var(--accent)}
+.chip.role[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);font-weight:600}
+.role-panel{display:flex;gap:16px;align-items:center;padding:12px;border:1px solid var(--line);border-radius:16px;background:var(--surface);text-decoration:none;max-width:560px;transition:border-color .2s}
+.role-panel:hover{border-color:var(--accent)}
+.role-panel img{width:120px;aspect-ratio:16/10;object-fit:cover;border-radius:10px;flex:none}
+.rp-text{display:flex;flex-direction:column;gap:4px;min-width:0;font-size:14.5px}
+.rp-eyebrow{font:600 11.5px/1.3 var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--accent-text)}
+.rp-text .more{font-size:14px}
+.role-panel.swap{animation:rp .28s ease}
+@keyframes rp{from{opacity:.35;transform:translateY(4px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion: reduce){.role-panel.swap{animation:none}}
+@media (max-width:520px){.role-panel img{width:88px}}
+
+.portrait{position:relative;aspect-ratio:1/1;max-width:360px;width:100%;justify-self:end;border-radius:28px;background:var(--accent);overflow:hidden;display:grid;place-items:center}
+.portrait img{width:100%;height:100%;object-fit:cover}
+.portrait .ph{font:800 64px/1 var(--display);color:var(--accent-ink);opacity:.85}
+/* expertise */
+.exp{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.exp article{display:flex;flex-direction:column;gap:12px;padding:28px;background:var(--surface);border-radius:var(--radius);min-width:0}
+.exp .ico{width:44px;height:44px;border-radius:12px;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font:800 18px/1 var(--display)}
+.exp p{color:var(--muted)}
+/* projects */
+.projects{display:flex;flex-direction:column;gap:20px}
+.card{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,4vw,56px);align-items:stretch;padding:clamp(18px,2.2vw,28px);background:var(--surface);border:1px solid var(--line);border-radius:var(--radius)}
+
+.card-img{display:block;overflow:hidden;border-radius:10px}
+.card-img{position:relative;align-self:stretch}
+.card-img::before{content:"";display:block;padding-top:62.5%}
+.card-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity .45s ease,transform .6s ease}
+.card-img img.hv{position:absolute;inset:0;height:100%;opacity:0;transform:scale(1.02)}
+.card:hover .card-img img.hv,.card-img:focus-visible img.hv{opacity:1;transform:none}
+@media (hover:none){.card-img img.hv{display:none}}
+.card{grid-template-columns:.95fr 1.05fr}
+.card-img{order:2}
+
+.card-body{display:flex;flex-direction:column;gap:14px;min-width:0;align-self:stretch}
+.card-body>.more{margin-top:auto;padding-top:8px}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0}
+.tag{display:inline-block;box-sizing:border-box;padding:7.8px calc(11.5px - .06em) 7.8px 12px;font:600 11.5px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;color:var(--accent-text);border:1px solid var(--accent);border-radius:999px;text-box:trim-both cap alphabetic;white-space:nowrap}
+.card-body p{color:var(--muted)}
+.facts{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;font-variant-numeric:tabular-nums}
+.facts li{font-weight:600;font-size:15px;line-height:22px;display:flex;align-items:flex-start}
+.facts li span{flex:none;width:6px;height:6px;border-radius:50%;background:var(--accent);margin:8.5px 12px 0 0}
+.more{font-weight:600;color:var(--accent-text);text-decoration:none}
+.more:hover{text-decoration:underline}
+/* testimonial */
+.quote{display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:start;max-width:860px}
+.qmark{font:800 72px/0.8 var(--display);color:var(--accent-text)}
+blockquote{margin:0;display:flex;flex-direction:column;gap:18px}
+blockquote p{font:600 clamp(19px,2.1vw,24px)/1.45 var(--display);letter-spacing:-.01em}
+.who{font-size:15px;color:var(--muted)}
+.who b{color:var(--fg)}
+/* contact */
+.contact{background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.contact .wrap{display:flex;flex-direction:column;gap:22px}
+.mail{display:flex;flex-wrap:wrap;align-items:center;gap:12px}
+.mail code{font:600 clamp(17px,2.4vw,24px)/1.3 var(--display);user-select:all;word-break:break-all}
+.copied{font-size:14px;color:var(--accent-text)}
+footer{padding-block:28px;color:var(--muted);font-size:14px}
+footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+/* case pages */
+.case-hero{padding-block:clamp(40px,6vw,72px) 32px}
+.case-hero .wrap{display:flex;flex-direction:column;gap:20px}
+.back{font-size:14.5px;color:var(--muted);text-decoration:none;font-weight:500}
+.back:hover{color:var(--fg)}
+.meta{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;padding-block:22px;border-block:1px solid var(--line);margin-top:8px}
+.meta div{display:flex;flex-direction:column;gap:4px;min-width:0}
+.meta dt{font:600 11.5px/1.2 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.meta dd{margin:0;font-weight:600;font-size:15px}
+.figure{margin:0;display:flex;flex-direction:column;gap:10px}
+.figure img{width:100%;border-radius:12px;border:1px solid var(--line);background:var(--surface)}
+.figure figcaption{font-size:13.5px;color:var(--muted)}
+.figs{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+.figs.narrow{grid-template-columns:1.4fr 1fr}
+.block{display:grid;grid-template-columns:280px 1fr;gap:clamp(20px,4vw,56px);padding-block:clamp(36px,5vw,56px);border-top:1px solid var(--line)}
+.block > h2{font-size:clamp(22px,2.4vw,28px)}
+.block-body{display:flex;flex-direction:column;gap:18px;min-width:0}
+.block-body p{max-width:66ch}
+.stat{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.stat b{font:800 clamp(30px,4vw,44px)/1 var(--display);color:var(--accent-text);font-variant-numeric:tabular-nums}
+.stat span{color:var(--muted);max-width:44ch;line-height:1.45}
+.note{border-left:3px solid var(--accent);padding:4px 0 4px 16px;color:var(--muted);max-width:66ch}
+.note b{color:var(--fg)}
+.steps{display:flex;flex-wrap:wrap;gap:8px}
+.next{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding:24px;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);text-decoration:none}
+.next:hover{border-color:var(--accent)}
+.next small{display:block;color:var(--muted);font-size:13px;margin-bottom:4px}
+@media (max-width:860px){
+  .hero-grid,.card,.block{grid-template-columns:1fr}
+  .card-img{order:0}
+  .portrait{justify-self:start;max-width:360px}
+  .exp{grid-template-columns:1fr}
+  .meta{grid-template-columns:1fr 1fr}
+  .figs,.figs.narrow{grid-template-columns:1fr}
+  .nav ul{gap:14px}
+}
+@media (max-width:520px){.nav ul li.hide-s{display:none}.quote{grid-template-columns:1fr}.qmark{font-size:56px}}
+
+.summary{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:28px 40px;padding:32px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius)}
+.summary h3{font:600 12px/1.2 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.summary ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px}
+.summary p{font-weight:500}
+.summary .impact{grid-column:1 / -1;display:grid;grid-template-columns:repeat(2,1fr);gap:20px;padding-top:24px;border-top:1px solid var(--line)}
+.kpi{display:flex;align-items:center;gap:16px}
+.kpi b{font:800 clamp(28px,3.2vw,40px)/1 var(--display);color:var(--accent-text);white-space:nowrap;font-variant-numeric:tabular-nums}
+.kpi span{color:var(--muted);font-size:15px;line-height:1.45}
+.skills{display:flex;flex-wrap:wrap;gap:6px}
+.skills .chip{font-size:12.5px}
+.problems{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.problems li{padding:24px;border-radius:var(--radius);background:var(--surface);border:1px solid var(--line);display:flex;flex-direction:column;gap:10px}
+.problems .n{font:800 15px/1 var(--display);color:var(--accent-text)}
+.problems b{font:700 18px/1.3 var(--display)}
+.problems span{color:var(--muted)}
+.matrix-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius);background:var(--bg)}
+table.matrix{border-collapse:collapse;width:100%;min-width:720px;font-size:14.5px}
+.matrix th,.matrix td{padding:13px 16px;text-align:center;border-bottom:1px solid var(--line)}
+.matrix th:first-child,.matrix td:first-child{text-align:left}
+.matrix thead th{font-weight:700;font-size:14px}
+.matrix thead small{display:block;font-weight:500;color:var(--muted);font-size:12px}
+.matrix .us{background:var(--accent-soft)}
+.matrix tr:last-child td{border-bottom:0}
+.dot{display:inline-block;width:16px;height:16px;border-radius:50%;background:var(--accent);vertical-align:middle}
+.dot.half{background:linear-gradient(90deg,var(--accent) 50%,transparent 50%);box-shadow:inset 0 0 0 2px var(--accent)}
+.dot.no{width:14px;height:2px;border-radius:2px;background:var(--line)}
+.legend{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--muted);align-items:center}
+.findings{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.finding{padding:22px;border-radius:var(--radius);border:1px solid var(--line);background:var(--surface);display:flex;flex-direction:column;gap:10px}
+.finding .row{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.finding .n{width:30px;height:30px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font:800 14px/1 var(--display)}
+.finding .sev{font:600 11.5px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;color:var(--accent-text);border:1px solid var(--accent);border-radius:999px;padding:6px 10px}
+.finding b{font:700 17px/1.3 var(--display)}
+.finding p{color:var(--muted)}
+.finding p em{font-style:normal;color:var(--fg);font-weight:600}
+.lessons{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.lessons div{display:flex;flex-direction:column;gap:8px}
+.lessons h3{font-size:18px}
+.lessons p{color:var(--muted)}
+.cta{display:flex;flex-direction:column;gap:16px;padding:32px;border-radius:var(--radius);background:var(--surface);border:1px solid var(--line)}
+
+.ba{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+.ba .figure{gap:12px}
+.ba .lbl{align-self:flex-start;font:600 11.5px/1 var(--body);letter-spacing:.08em;text-transform:uppercase;padding:7px 12px;border-radius:999px;border:1px solid var(--line);color:var(--muted)}
+.ba .after .lbl{border-color:var(--accent);color:var(--accent-text)}
+@media (max-width:860px){.ba{grid-template-columns:1fr}}
+@media (max-width:860px){.summary{grid-template-columns:1fr}.summary .impact{grid-template-columns:1fr}.problems,.lessons,.findings{grid-template-columns:1fr}}
+
+.summary .impact.three{grid-template-columns:repeat(3,1fr)}
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:12px;counter-reset:s}
+.steps li{padding:18px;border-radius:var(--radius);border:1px solid var(--line);background:var(--surface);display:flex;flex-direction:column;gap:6px}
+.steps li b{font:700 16px/1.3 var(--display)}
+.steps li span{color:var(--muted);font-size:15px}
+.steps li i{font:800 13px/1 var(--display);font-style:normal;color:var(--accent-text)}
+.formats{display:flex;flex-wrap:wrap;gap:8px}
+@media (max-width:860px){.summary .impact.three{grid-template-columns:1fr}.steps{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.steps{grid-template-columns:1fr}}
+</style></head><body><a class="skip" href="#main">Skip to&nbsp;content</a>
+<header class="nav"><div class="wrap"><a class="logo" href="index.html">Svitlana Ohar</a>
+<nav aria-label="Main"><ul><li class="hide-s"><a href="index.html#expertise">Expertise</a></li><li><a href="index.html#projects">Projects</a></li><li class="hide-s"><a href="index.html#testimonial">Testimonial</a></li><li class="hide-s"><a href="index.html#about">About</a></li><li><a href="index.html#contact">Contact</a></li></ul></nav></div></header>
+<main id="main">
+<div class="case-hero"><div class="wrap">
+<a class="back" href="index.html#projects"><svg class="ico-arr" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 8H3M7 4L3 8l4 4"/></svg>All projects</a>
+<div class="tags"><span class="tag">Live product</span><span class="tag">Sport</span><span class="tag">Web platform</span><span class="tag">Sole designer</span></div>
+<h1>Moving tournaments from&nbsp;phone calls to&nbsp;one platform</h1>
+<p class="lead">Asian TT League is&nbsp;a&nbsp;table tennis platform in&nbsp;Thailand: tournaments with&nbsp;a&nbsp;rating system, clubs, coaches and&nbsp;player profiles. As&nbsp;the&nbsp;only designer, I&nbsp;designed the&nbsp;whole website, the&nbsp;admin panel and&nbsp;the&nbsp;software organisers use to&nbsp;run a&nbsp;tournament live&nbsp;— in&nbsp;English, Russian and&nbsp;Thai.</p>
+<div class="btns"><a class="btn primary" href="https://asianttleague.com/en" target="_blank" rel="noopener">Live website<svg class="ico-arr" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11L11 5M6 5h5v5"/></svg></a></div>
+<figure class="figure"><img src="img/pv-asian-tt-league.jpg" alt="Asian TT League tournament page and final results table" loading="lazy"></figure>
+</div></div>
+<div class="wrap">
+
+<section class="block" aria-labelledby="s-sum"><h2 id="s-sum">Summary</h2><div class="block-body">
+<div class="summary">
+<div><h3>Objectives</h3><ul><li>Make finding and&nbsp;following a&nbsp;tournament easier than&nbsp;a&nbsp;phone call.</li><li>Give clubs one place to&nbsp;announce tournaments and&nbsp;manage players.</li><li>Give organisers a&nbsp;tool to&nbsp;run a&nbsp;tournament live and&nbsp;get results right.</li></ul></div>
+<div><h3>Role</h3><p>Sole UI/UX designer</p><p style="font-weight:400;color:var(--muted)">Information architecture, UI, admin panel, tournament software, localisation, developer handoff</p></div>
+<div><h3>Period &amp;&nbsp;team</h3><p>Winter 2023</p><p style="font-weight:400;color:var(--muted)">The&nbsp;client (league organiser) and&nbsp;one developer. The&nbsp;logo and&nbsp;the&nbsp;promo banner were made by&nbsp;other designers.</p></div>
+<div style="grid-column:1 / -1"><h3>Key skills</h3><div class="skills"><span class="chip">Domain research</span><span class="chip">Information architecture</span><span class="chip">Complex tables</span><span class="chip">Admin interfaces</span><span class="chip">Localisation</span><span class="chip">Responsive web</span><span class="chip">Developer handoff</span></div></div>
+<div class="impact three">
+<div class="kpi"><b>200+</b><span>desktop and&nbsp;mobile screens, from&nbsp;the&nbsp;public website to&nbsp;the&nbsp;admin panel.</span></div>
+<div class="kpi"><b>3</b><span>languages&nbsp;— English, Russian and&nbsp;Thai&nbsp;— across the&nbsp;website and&nbsp;all admin content.</span></div>
+<div class="kpi"><b>4</b><span>tournament formats in&nbsp;the&nbsp;organiser software, used at&nbsp;real tournaments.</span></div>
+</div></div></div></section>
+
+<section class="block" aria-labelledby="s-prob"><h2 id="s-prob">Three problems shaped the&nbsp;work</h2><div class="block-body">
+<p>Thailand has strong players, active clubs and&nbsp;regular tournaments, and&nbsp;many players also compete internationally. But&nbsp;there was no&nbsp;shared online place for&nbsp;them, and&nbsp;no&nbsp;similar platform in&nbsp;Thailand or&nbsp;Asia.</p>
+<ol class="problems">
+<li><span class="n">01</span><b>Players signed up by&nbsp;phone</b><span>Tournaments were announced and&nbsp;joined by&nbsp;phone, in&nbsp;person at&nbsp;the&nbsp;club or&nbsp;through Instagram. There was no&nbsp;single place to&nbsp;see what's coming up.</span></li>
+<li><span class="n">02</span><b>Ratings lived nowhere</b><span>Players couldn't follow their results or&nbsp;rating over time, and&nbsp;clubs tracked participants and&nbsp;results by&nbsp;hand.</span></li>
+<li><span class="n">03</span><b>Running a&nbsp;tournament is&nbsp;complex</b><span>Organisers juggle tables, queues and&nbsp;scores during the&nbsp;event&nbsp;— and&nbsp;every result changes players' ratings, so&nbsp;the&nbsp;logic has to&nbsp;be&nbsp;right.</span></li>
+</ol></div></section>
+
+<section class="block" aria-labelledby="s-rules"><h2 id="s-rules">Competitors abroad, rules from&nbsp;the&nbsp;rulebook</h2><div class="block-body">
+<p>There were no&nbsp;competitors in&nbsp;the&nbsp;Thai market, so&nbsp;I&nbsp;looked abroad. I&nbsp;analysed RTTF, a&nbsp;table tennis rating website in&nbsp;Russia that&nbsp;does the&nbsp;same job&nbsp;— a&nbsp;direct competitor, just in&nbsp;another market&nbsp;— as&nbsp;well as&nbsp;indirect competitors. Inside Thailand, the&nbsp;real alternative was the&nbsp;phone: the&nbsp;website had to&nbsp;be&nbsp;faster and&nbsp;clearer than&nbsp;calling the&nbsp;club.</p>
+<p>From&nbsp;the&nbsp;analysis I&nbsp;kept the&nbsp;logic players already know&nbsp;— tournaments by&nbsp;date, rating limits, results with&nbsp;rating before and&nbsp;after&nbsp;— and&nbsp;left out everything that&nbsp;didn't help find a&nbsp;tournament or&nbsp;follow a&nbsp;rating.</p>
+<p>The&nbsp;hardest part was the&nbsp;tournament brackets. The&nbsp;client sent me photos straight from&nbsp;a&nbsp;federation rulebook, and&nbsp;I&nbsp;worked out how players are&nbsp;placed, how winners advance and&nbsp;how places are&nbsp;decided in&nbsp;each format.</p>
+<div class="figs narrow"><figure class="figure"><img src="img/tt-refs.jpg" alt="Material from the client: brackets and a page of a national federation rulebook." loading="lazy"><figcaption>Material from&nbsp;the&nbsp;client: brackets and&nbsp;a&nbsp;page of&nbsp;a&nbsp;national federation rulebook.</figcaption></figure><figure class="figure"><img src="img/tt-bracket-hover.jpg" alt="My knockout bracket: hovering a player highlights their path." loading="lazy"><figcaption>My&nbsp;knockout bracket: hovering a&nbsp;player highlights their path.</figcaption></figure></div>
+<p class="note"><b>Research scope.</b> The&nbsp;research was competitor analysis and&nbsp;the&nbsp;client's knowledge of&nbsp;players and&nbsp;clubs. There were no&nbsp;user interviews or&nbsp;usability tests before launch; instead, the&nbsp;software was checked at&nbsp;real tournaments.</p>
+</div></section>
+
+<section class="block" aria-labelledby="s-ia"><h2 id="s-ia">One website for&nbsp;players, clubs and&nbsp;admins</h2><div class="block-body">
+<p>I&nbsp;mapped the&nbsp;public website, player and&nbsp;club accounts and&nbsp;the&nbsp;admin panel before designing screens. Four decisions held the&nbsp;structure together:</p>
+<div class="findings">
+<div class="finding"><div class="row"><span class="n">1</span></div><b>Tournaments first</b><p>The&nbsp;home page opens with&nbsp;upcoming tournaments, readable without an&nbsp;account&nbsp;— most visitors come with&nbsp;one question: “what's coming up?”</p></div>
+<div class="finding"><div class="row"><span class="n">2</span></div><b>Rating everywhere</b><p>Rating limit, average rating and&nbsp;rating before and&nbsp;after appear in&nbsp;every tournament row, results table and&nbsp;profile.</p></div>
+<div class="finding"><div class="row"><span class="n">3</span></div><b>Three roles, one website</b><p>Players, clubs and&nbsp;admins share the&nbsp;same pages, with&nbsp;separate accounts for&nbsp;players and&nbsp;clubs and&nbsp;a&nbsp;separate admin panel.</p></div>
+<div class="finding"><div class="row"><span class="n">4</span></div><b>Designed for&nbsp;three languages</b><p>Key pages were checked with&nbsp;real Thai text. Long club and&nbsp;player names are&nbsp;cut with&nbsp;an&nbsp;ellipsis, so&nbsp;cards and&nbsp;rows keep the&nbsp;same size.</p></div>
+</div>
+<figure class="figure"><img src="img/tt-sitemap.jpg" alt="Sitemap: public website, player account, club account, admin panel." loading="lazy"><figcaption>Sitemap: public website, player account, club account, admin panel.</figcaption></figure>
+</div></section>
+
+<section class="block" aria-labelledby="s-find"><h2 id="s-find">Find a&nbsp;tournament in&nbsp;one screen</h2><div class="block-body">
+<p>Players search by&nbsp;date, club and&nbsp;city. Upcoming tournaments are&nbsp;grouped by&nbsp;day, and&nbsp;each row answers the&nbsp;questions a&nbsp;player would otherwise ask on&nbsp;the&nbsp;phone: time, club, rating limit, average rating and&nbsp;how many players have joined.</p>
+<figure class="figure"><img src="img/tt-c-tournaments.jpg" alt="Find a tournament · search by date, club and city; upcoming tournaments grouped by day" loading="lazy"><figcaption>Find a&nbsp;tournament · search by&nbsp;date, club and&nbsp;city; upcoming tournaments grouped by&nbsp;day</figcaption></figure>
+</div></section>
+
+<section class="block" aria-labelledby="s-follow"><h2 id="s-follow">Follow every result and&nbsp;rating</h2><div class="block-body">
+<p>The&nbsp;tournament page shows the&nbsp;key facts&nbsp;— participants, games, rating limit, average rating and&nbsp;tournament coefficient&nbsp;— with&nbsp;an&nbsp;online broadcast and&nbsp;a&nbsp;final table showing each player's rating before and&nbsp;after.</p>
+<figure class="figure"><img src="img/tt-c-results.jpg" alt="Tournament results · broadcast and final table with rating before and after" loading="lazy"><figcaption>Tournament results · broadcast and&nbsp;final table with&nbsp;rating before and&nbsp;after</figcaption></figure>
+<p>Each player gets a&nbsp;profile they can share: rating, playing hand, racket details, general statistics and&nbsp;best victories.</p>
+<figure class="figure"><img src="img/tt-c-player.jpg" alt="Player profile · rating, statistics and best victories" loading="lazy"><figcaption>Player profile · rating, statistics and&nbsp;best victories</figcaption></figure>
+</div></section>
+
+<section class="block" aria-labelledby="s-clubs"><h2 id="s-clubs">Clubs: from&nbsp;a&nbsp;listing to&nbsp;running tournaments</h2><div class="block-body">
+<p>Players find a&nbsp;club by&nbsp;name and&nbsp;city; each club has its&nbsp;own page with&nbsp;contacts, number of&nbsp;tables, working hours and&nbsp;a&nbsp;training schedule. A&nbsp;club that&nbsp;wants to&nbsp;host tournaments applies once through a&nbsp;form, and&nbsp;after approval announces its&nbsp;own tournaments&nbsp;— with&nbsp;date, time, rating limit, entry fee and&nbsp;prizes.</p>
+<figure class="figure"><img src="img/tt-c-clubs.jpg" alt="Find a club and the club page with training schedule" loading="lazy"><figcaption>Find a&nbsp;club and&nbsp;the&nbsp;club page with&nbsp;training schedule</figcaption></figure>
+<figure class="figure"><img src="img/tt-c-create.jpg" alt="Club account · creating a tournament" loading="lazy"><figcaption>Club account · creating a&nbsp;tournament</figcaption></figure>
+</div></section>
+
+<section class="block" aria-labelledby="s-soft"><h2 id="s-soft">Software to&nbsp;run the&nbsp;tournament live</h2><div class="block-body">
+<p>The&nbsp;most complex part was a&nbsp;tool for&nbsp;organisers to&nbsp;use during the&nbsp;event. I&nbsp;designed it&nbsp;as&nbsp;one working screen that&nbsp;follows the&nbsp;tournament from&nbsp;set-up to&nbsp;results:</p>
+<ol class="steps">
+<li><i>01</i><b>Choose or&nbsp;create</b><span>Pick an&nbsp;announced tournament&nbsp;— registered players come from&nbsp;the&nbsp;website automatically&nbsp;— or&nbsp;create a&nbsp;new one.</span></li>
+<li><i>02</i><b>Set up</b><span>Choose the&nbsp;format, the&nbsp;number of&nbsp;tables and&nbsp;the&nbsp;match length; add unrated players by&nbsp;hand.</span></li>
+<li><i>03</i><b>Play</b><span>See who is&nbsp;playing and&nbsp;who is&nbsp;waiting, enter scores, mark players who withdrew.</span></li>
+<li><i>04</i><b>Results</b><span>Completed games and&nbsp;a&nbsp;final table with&nbsp;rating before and&nbsp;after, ready for&nbsp;the&nbsp;website.</span></li>
+</ol>
+<div class="formats"><span class="chip">Round robin</span><span class="chip">Knockout</span><span class="chip">Short knockout</span><span class="chip">Groups with&nbsp;a&nbsp;knockout final</span></div>
+<figure class="figure"><img src="img/tt-c-soft-flow.jpg" alt="Choose or create a tournament, then the live round-robin table" loading="lazy"><figcaption>Choose or&nbsp;create a&nbsp;tournament, then the&nbsp;live round-robin table</figcaption></figure>
+<figure class="figure"><img src="img/tt-c-soft-setup.jpg" alt="Set-up and live play · format, tables, playing and waiting queues, players who withdrew" loading="lazy"><figcaption>Set-up and&nbsp;live play · format, tables, playing and&nbsp;waiting queues, players who withdrew</figcaption></figure>
+<figure class="figure"><img src="img/tt-c-soft-results.jpg" alt="Completed games and final results with rating before and after" loading="lazy"><figcaption>Completed games and&nbsp;final results with&nbsp;rating before and&nbsp;after</figcaption></figure>
+<p>Tables grow automatically as&nbsp;results come in. In&nbsp;the&nbsp;knockout bracket, hovering a&nbsp;player highlights their path through the&nbsp;rounds, so&nbsp;the&nbsp;organiser can check results at&nbsp;a&nbsp;glance.</p>
+</div></section>
+
+<section class="block" aria-labelledby="s-admin"><h2 id="s-admin">An&nbsp;admin panel built for&nbsp;three languages</h2><div class="block-body">
+<p>Admins manage players, clubs, coaches, club and&nbsp;coach applications, and&nbsp;cities. Because the&nbsp;whole website works in&nbsp;three languages, every piece of&nbsp;content an&nbsp;admin enters has to&nbsp;exist in&nbsp;all three. On&nbsp;the&nbsp;cities screen, each city has a&nbsp;Russian, English and&nbsp;Thai field, and&nbsp;a&nbsp;missing translation is&nbsp;highlighted before saving.</p>
+<figure class="figure"><img src="img/tt-c-admin.jpg" alt="Admin panel · player details and city editing in Russian, English and Thai" loading="lazy"><figcaption>Admin panel · player details and&nbsp;city editing in&nbsp;Russian, English and&nbsp;Thai</figcaption></figure>
+</div></section>
+
+<section class="block" aria-labelledby="s-mob"><h2 id="s-mob">Mobile, in&nbsp;English, Russian and&nbsp;Thai</h2><div class="block-body">
+<p>Every page has a&nbsp;360&nbsp;px mobile version. Thai words are&nbsp;often longer than&nbsp;English ones, so&nbsp;I&nbsp;checked layouts with&nbsp;real Thai text instead of&nbsp;assuming English lengths.</p>
+<figure class="figure"><img src="img/tt-c-thai.jpg" alt="Home page in Thai" loading="lazy"><figcaption>Home page in&nbsp;Thai</figcaption></figure>
+<figure class="figure"><img src="img/tt-c-mobile.jpg" alt="Mobile · home, tournament search and player profile" loading="lazy"><figcaption>Mobile · home, tournament search and&nbsp;player profile</figcaption></figure>
+</div></section>
+
+<section class="block" aria-labelledby="s-test"><h2 id="s-test">Tested at&nbsp;real tournaments</h2><div class="block-body">
+<p>The&nbsp;client ran the&nbsp;software at&nbsp;a&nbsp;test tournament and&nbsp;then at&nbsp;his own events. The&nbsp;screens needed no&nbsp;visual changes; the&nbsp;developer only corrected how points were calculated&nbsp;— results feed players' ratings, so&nbsp;the&nbsp;logic had to&nbsp;be&nbsp;right.</p>
+<p>I&nbsp;helped the&nbsp;developer understand the&nbsp;product and&nbsp;its&nbsp;edge cases. The&nbsp;client later continued development on&nbsp;their own, so&nbsp;I&nbsp;don't have usage data after launch. The&nbsp;website is&nbsp;live at <a href="https://asianttleague.com/en" target="_blank" rel="noopener">asianttleague.com</a>.</p>
+</div></section>
+
+<section class="block" aria-labelledby="s-learn"><h2 id="s-learn">What I&nbsp;learned</h2><div class="block-body">
+<div class="lessons">
+<div><h3>Learn the&nbsp;domain first</h3><p>Competitors showed what players expect; the&nbsp;rulebook showed how tournaments actually work. Understanding the&nbsp;rules made the&nbsp;bracket screens simple.</p></div>
+<div><h3>Design tools, not&nbsp;only pages</h3><p>The&nbsp;organiser software is&nbsp;used during a&nbsp;live event, so&nbsp;clarity matters more than&nbsp;decoration.</p></div>
+<div><h3>Talk to&nbsp;users earlier</h3><p>Next time I&nbsp;would speak to&nbsp;players and&nbsp;organisers before designing, and&nbsp;test the&nbsp;software at&nbsp;an&nbsp;event myself.</p></div>
+</div></div></section>
+
+<div class="cta" style="margin-block:24px 24px"><h2>Looking for&nbsp;a&nbsp;UI/UX designer in&nbsp;Sweden?</h2><div class="btns"><a class="btn primary" href="index.html#contact">Get in&nbsp;touch</a><a class="btn" href="https://www.linkedin.com/in/svitlana-ohar-859025243/" target="_blank" rel="noopener">LinkedIn<svg class="ico-arr" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11L11 5M6 5h5v5"/></svg></a></div></div>
+<div style="padding-block:8px 72px"><a class="next" href="doorbite.html"><span><small>Next project</small><b style="font:700 20px var(--display)">Doorbite&nbsp;— Ordering coffee at&nbsp;your desk without surprises at&nbsp;checkout</b></span><span class="more"><svg class="ico-arr" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></a></div>
+</div></main>
+<footer><div class="wrap"><span>© 2026&nbsp;Svitlana Ohar · UI/UX Designer · Stockholm</span><a href="https://www.linkedin.com/in/svitlana-ohar-859025243/" target="_blank" rel="noopener">LinkedIn<svg class="ico-arr" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11L11 5M6 5h5v5"/></svg></a></div></footer></body></html>

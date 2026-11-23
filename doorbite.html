@@ -1,0 +1,350 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Doorbite · Svitlana Ohar</title><meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Ordering coffee at your desk without surprises at checkout — case study by Svitlana Ohar."><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap"><style>
+.ico-arr{flex:none;display:inline-block;vertical-align:middle}
+a.btn,.more,a.back,.footer a,footer a,.mail a{display:inline-flex;align-items:center;gap:6px}
+a.back .ico-arr{margin-right:2px}
+
+.about{display:grid;grid-template-columns:1.4fr 1fr;gap:clamp(24px,4vw,64px);align-items:start;padding:clamp(24px,3vw,40px);border-radius:var(--radius);background:var(--surface);border:1px solid var(--line)}
+.about-text{min-width:0}.about-text h2{margin:.2em 0 .6em}.about-text p{max-width:62ch;margin:0}.about-text p+p{margin-top:12px}
+.langs h3{margin:0 0 12px;font:700 15px/1.3 var(--display);text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.langs ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.langs li{display:flex;justify-content:space-between;gap:16px;padding:14px 16px;border-radius:12px;background:var(--bg);border:1px solid var(--line)}
+.langs li b{font-weight:700}.langs li span{color:var(--muted);text-align:right}
+@media (max-width:860px){.about{grid-template-columns:1fr}}
+
+p,li,figcaption,.lead{text-wrap:pretty}
+
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.slot{position:relative;display:inline-block;color:var(--accent);cursor:pointer}
+.slot-w{visibility:hidden}
+.slot-c{position:absolute;left:50%;top:0;transform:translateX(-50%);will-change:transform}
+.slot-c.drop{animation:slotdrop .09s ease-out}
+.slot-c.click{animation:slotclick .42s cubic-bezier(.3,1.7,.5,1)}
+@keyframes slotdrop{from{transform:translate(-50%,-40%);opacity:.2}to{transform:translate(-50%,0);opacity:1}}
+@keyframes slotclick{0%{transform:translate(-50%,-50%) scale(1.3)}100%{transform:translate(-50%,0) scale(1)}}
+@media (prefers-reduced-motion:reduce){.slot-c.drop,.slot-c.click{animation:none}}
+
+/* Layout: one calm column, 1120px max; cards alternate image/text; case pages read like annotated documents. */
+/* Layout: wide calm column (1360px); hero = text + portrait on an orange panel; cards alternate screen / text. */
+:root{
+  --bg:#FFFFFF; --surface:#FAF9F7; --fg:#161412; --muted:#6B6560; --line:#E7E4E0;
+  --accent:#FF4802; --accent-text:#CC3700; --accent-ink:#161412; --accent-soft:#FFE6DA;
+  --display:"Manrope",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --body:"Inter",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --radius:18px; --max:1360px;
+}
+/* DARK THEME OFF (light only for now)
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#121110; --surface:#1C1A18; --fg:#F4F2EF; --muted:#A8A29C; --line:#2C2926;
+  --accent:#FF4802; --accent-text:#FF6A2E; --accent-ink:#161412; --accent-soft:#33190D; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#121110; --surface:#1C1A18; --fg:#F4F2EF; --muted:#A8A29C; --line:#2C2926;
+  --accent:#FF4802; --accent-text:#FF6A2E; --accent-ink:#161412; --accent-soft:#33190D; color-scheme:dark}
+*/
+:root{color-scheme:light}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*{transition:none!important}}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 var(--body);-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:inherit}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
+.wrap{max-width:var(--max);margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.skip{position:absolute;left:-999px;top:8px;background:var(--surface);padding:8px 12px;border-radius:8px;z-index:30}
+.skip:focus{left:16px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+header.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:14px}
+.logo{font:800 17px/1 var(--display);text-decoration:none;letter-spacing:-.01em}
+.nav ul{display:flex;gap:22px;list-style:none;margin:0;padding:0;flex-wrap:wrap}
+.nav ul a{text-decoration:none;font-size:14.5px;color:var(--muted);font-weight:500}
+.nav ul a:hover{color:var(--fg)}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;letter-spacing:-.02em;margin:0}
+h1{font-size:clamp(34px,5.4vw,58px);line-height:1.07;font-weight:800}
+h2{font-size:clamp(26px,3.4vw,36px);line-height:1.15;font-weight:800}
+h3{font-size:21px;line-height:1.3;font-weight:700}
+p{margin:0}
+.eyebrow{font:600 12.5px/1.2 var(--body);letter-spacing:.12em;text-transform:uppercase;color:var(--accent-text)}
+.lead{font-size:clamp(17px,1.6vw,19px);color:var(--muted);max-width:60ch}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border-radius:999px;font:600 15px/1 var(--body);text-decoration:none;border:1.5px solid var(--accent);cursor:pointer;background:none;color:var(--fg)}
+.btn.primary{background:var(--accent);color:var(--accent-ink)}
+.btn:hover{transform:translateY(-1px)}
+.btns{display:flex;flex-wrap:wrap;gap:12px}
+section{padding-block:clamp(56px,8vw,96px)}
+.sec-head{display:flex;flex-direction:column;gap:10px;margin-bottom:36px}
+/* hero */
+.hero{padding-block:clamp(48px,7vw,88px) clamp(40px,6vw,72px)}
+.hero-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:clamp(28px,5vw,64px);align-items:center}
+.hero-text{display:flex;flex-direction:column;gap:22px;min-width:0}
+.hello{font:600 17px/1.4 var(--body);color:var(--muted)}
+.hello b{color:var(--fg)}
+.roles{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font:500 13px/1 var(--body);padding:7px 11px;border-radius:999px;background:var(--accent-soft);color:var(--fg)}
+.roles-note{font-size:13px;color:var(--muted)}
+.chip.role{border:1px solid transparent;cursor:pointer;font-family:var(--body);color:var(--fg);transition:background .15s,border-color .15s}
+.chip.role:hover{border-color:var(--accent)}
+.chip.role[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);font-weight:600}
+.role-panel{display:flex;gap:16px;align-items:center;padding:12px;border:1px solid var(--line);border-radius:16px;background:var(--surface);text-decoration:none;max-width:560px;transition:border-color .2s}
+.role-panel:hover{border-color:var(--accent)}
+.role-panel img{width:120px;aspect-ratio:16/10;object-fit:cover;border-radius:10px;flex:none}
+.rp-text{display:flex;flex-direction:column;gap:4px;min-width:0;font-size:14.5px}
+.rp-eyebrow{font:600 11.5px/1.3 var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--accent-text)}
+.rp-text .more{font-size:14px}
+.role-panel.swap{animation:rp .28s ease}
+@keyframes rp{from{opacity:.35;transform:translateY(4px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion: reduce){.role-panel.swap{animation:none}}
+@media (max-width:520px){.role-panel img{width:88px}}
+
+.portrait{position:relative;aspect-ratio:1/1;max-width:360px;width:100%;justify-self:end;border-radius:28px;background:var(--accent);overflow:hidden;display:grid;place-items:center}
+.portrait img{width:100%;height:100%;object-fit:cover}
+.portrait .ph{font:800 64px/1 var(--display);color:var(--accent-ink);opacity:.85}
+/* expertise */
+.exp{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.exp article{display:flex;flex-direction:column;gap:12px;padding:28px;background:var(--surface);border-radius:var(--radius);min-width:0}
+.exp .ico{width:44px;height:44px;border-radius:12px;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font:800 18px/1 var(--display)}
+.exp p{color:var(--muted)}
+/* projects */
+.projects{display:flex;flex-direction:column;gap:20px}
+.card{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,4vw,56px);align-items:stretch;padding:clamp(18px,2.2vw,28px);background:var(--surface);border:1px solid var(--line);border-radius:var(--radius)}
+
+.card-img{display:block;overflow:hidden;border-radius:10px}
+.card-img{position:relative;align-self:stretch}
+.card-img::before{content:"";display:block;padding-top:62.5%}
+.card-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity .45s ease,transform .6s ease}
+.card-img img.hv{position:absolute;inset:0;height:100%;opacity:0;transform:scale(1.02)}
+.card:hover .card-img img.hv,.card-img:focus-visible img.hv{opacity:1;transform:none}
+@media (hover:none){.card-img img.hv{display:none}}
+.card{grid-template-columns:.95fr 1.05fr}
+.card-img{order:2}
+
+.card-body{display:flex;flex-direction:column;gap:14px;min-width:0;align-self:stretch}
+.card-body>.more{margin-top:auto;padding-top:8px}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0}
+.tag{display:inline-block;box-sizing:border-box;padding:7.8px calc(11.5px - .06em) 7.8px 12px;font:600 11.5px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;color:var(--accent-text);border:1px solid var(--accent);border-radius:999px;text-box:trim-both cap alphabetic;white-space:nowrap}
+.card-body p{color:var(--muted)}
+.facts{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;font-variant-numeric:tabular-nums}
+.facts li{font-weight:600;font-size:15px;line-height:22px;display:flex;align-items:flex-start}
+.facts li span{flex:none;width:6px;height:6px;border-radius:50%;background:var(--accent);margin:8.5px 12px 0 0}
+.more{font-weight:600;color:var(--accent-text);text-decoration:none}
+.more:hover{text-decoration:underline}
+/* testimonial */
+.quote{display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:start;max-width:860px}
+.qmark{font:800 72px/0.8 var(--display);color:var(--accent-text)}
+blockquote{margin:0;display:flex;flex-direction:column;gap:18px}
+blockquote p{font:600 clamp(19px,2.1vw,24px)/1.45 var(--display);letter-spacing:-.01em}
+.who{font-size:15px;color:var(--muted)}
+.who b{color:var(--fg)}
+/* contact */
+.contact{background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.contact .wrap{display:flex;flex-direction:column;gap:22px}
+.mail{display:flex;flex-wrap:wrap;align-items:center;gap:12px}
+.mail code{font:600 clamp(17px,2.4vw,24px)/1.3 var(--display);user-select:all;word-break:break-all}
+.copied{font-size:14px;color:var(--accent-text)}
+footer{padding-block:28px;color:var(--muted);font-size:14px}
+footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+/* case pages */
+.case-hero{padding-block:clamp(40px,6vw,72px) 32px}
+.case-hero .wrap{display:flex;flex-direction:column;gap:20px}
+.back{font-size:14.5px;color:var(--muted);text-decoration:none;font-weight:500}
+.back:hover{color:var(--fg)}
+.meta{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;padding-block:22px;border-block:1px solid var(--line);margin-top:8px}
+.meta div{display:flex;flex-direction:column;gap:4px;min-width:0}
+.meta dt{font:600 11.5px/1.2 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.meta dd{margin:0;font-weight:600;font-size:15px}
+.figure{margin:0;display:flex;flex-direction:column;gap:10px}
+.figure img{width:100%;border-radius:12px;border:1px solid var(--line);background:var(--surface)}
+.figure figcaption{font-size:13.5px;color:var(--muted)}
+.figs{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+.figs.narrow{grid-template-columns:1.4fr 1fr}
+.block{display:grid;grid-template-columns:280px 1fr;gap:clamp(20px,4vw,56px);padding-block:clamp(36px,5vw,56px);border-top:1px solid var(--line)}
+.block > h2{font-size:clamp(22px,2.4vw,28px)}
+.block-body{display:flex;flex-direction:column;gap:18px;min-width:0}
+.block-body p{max-width:66ch}
+.stat{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.stat b{font:800 clamp(30px,4vw,44px)/1 var(--display);color:var(--accent-text);font-variant-numeric:tabular-nums}
+.stat span{color:var(--muted);max-width:44ch;line-height:1.45}
+.note{border-left:3px solid var(--accent);padding:4px 0 4px 16px;color:var(--muted);max-width:66ch}
+.note b{color:var(--fg)}
+.steps{display:flex;flex-wrap:wrap;gap:8px}
+.next{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding:24px;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);text-decoration:none}
+.next:hover{border-color:var(--accent)}
+.next small{display:block;color:var(--muted);font-size:13px;margin-bottom:4px}
+@media (max-width:860px){
+  .hero-grid,.card,.block{grid-template-columns:1fr}
+  .card-img{order:0}
+  .portrait{justify-self:start;max-width:360px}
+  .exp{grid-template-columns:1fr}
+  .meta{grid-template-columns:1fr 1fr}
+  .figs,.figs.narrow{grid-template-columns:1fr}
+  .nav ul{gap:14px}
+}
+@media (max-width:520px){.nav ul li.hide-s{display:none}.quote{grid-template-columns:1fr}.qmark{font-size:56px}}
+
+.summary{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:28px 40px;padding:32px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius)}
+.summary h3{font:600 12px/1.2 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.summary ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px}
+.summary p{font-weight:500}
+.summary .impact{grid-column:1 / -1;display:grid;grid-template-columns:repeat(2,1fr);gap:20px;padding-top:24px;border-top:1px solid var(--line)}
+.kpi{display:flex;align-items:center;gap:16px}
+.kpi b{font:800 clamp(28px,3.2vw,40px)/1 var(--display);color:var(--accent-text);white-space:nowrap;font-variant-numeric:tabular-nums}
+.kpi span{color:var(--muted);font-size:15px;line-height:1.45}
+.skills{display:flex;flex-wrap:wrap;gap:6px}
+.skills .chip{font-size:12.5px}
+.problems{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.problems li{padding:24px;border-radius:var(--radius);background:var(--surface);border:1px solid var(--line);display:flex;flex-direction:column;gap:10px}
+.problems .n{font:800 15px/1 var(--display);color:var(--accent-text)}
+.problems b{font:700 18px/1.3 var(--display)}
+.problems span{color:var(--muted)}
+.matrix-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius);background:var(--bg)}
+table.matrix{border-collapse:collapse;width:100%;min-width:720px;font-size:14.5px}
+.matrix th,.matrix td{padding:13px 16px;text-align:center;border-bottom:1px solid var(--line)}
+.matrix th:first-child,.matrix td:first-child{text-align:left}
+.matrix thead th{font-weight:700;font-size:14px}
+.matrix thead small{display:block;font-weight:500;color:var(--muted);font-size:12px}
+.matrix .us{background:var(--accent-soft)}
+.matrix tr:last-child td{border-bottom:0}
+.dot{display:inline-block;width:16px;height:16px;border-radius:50%;background:var(--accent);vertical-align:middle}
+.dot.half{background:linear-gradient(90deg,var(--accent) 50%,transparent 50%);box-shadow:inset 0 0 0 2px var(--accent)}
+.dot.no{width:14px;height:2px;border-radius:2px;background:var(--line)}
+.legend{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--muted);align-items:center}
+.findings{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.finding{padding:22px;border-radius:var(--radius);border:1px solid var(--line);background:var(--surface);display:flex;flex-direction:column;gap:10px}
+.finding .row{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.finding .n{width:30px;height:30px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font:800 14px/1 var(--display)}
+.finding .sev{font:600 11.5px/1 var(--body);letter-spacing:.06em;text-transform:uppercase;color:var(--accent-text);border:1px solid var(--accent);border-radius:999px;padding:6px 10px}
+.finding b{font:700 17px/1.3 var(--display)}
+.finding p{color:var(--muted)}
+.finding p em{font-style:normal;color:var(--fg);font-weight:600}
+.lessons{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.lessons div{display:flex;flex-direction:column;gap:8px}
+.lessons h3{font-size:18px}
+.lessons p{color:var(--muted)}
+.cta{display:flex;flex-direction:column;gap:16px;padding:32px;border-radius:var(--radius);background:var(--surface);border:1px solid var(--line)}
+
+.ba{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+.ba .figure{gap:12px}
+.ba .lbl{align-self:flex-start;font:600 11.5px/1 var(--body);letter-spacing:.08em;text-transform:uppercase;padding:7px 12px;border-radius:999px;border:1px solid var(--line);color:var(--muted)}
+.ba .after .lbl{border-color:var(--accent);color:var(--accent-text)}
+@media (max-width:860px){.ba{grid-template-columns:1fr}}
+@media (max-width:860px){.summary{grid-template-columns:1fr}.summary .impact{grid-template-columns:1fr}.problems,.lessons,.findings{grid-template-columns:1fr}}
+
+.summary .impact.three{grid-template-columns:repeat(3,1fr)}
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.steps li{padding:18px;border-radius:var(--radius);border:1px solid var(--line);background:var(--surface);display:flex;flex-direction:column;gap:6px}
+.steps li b{font:700 16px/1.3 var(--display)}
+.steps li span{color:var(--muted);font-size:15px}
+.steps li i{font:800 13px/1 var(--display);font-style:normal;color:var(--accent-text)}
+.quotes{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.quotes blockquote{margin:0;padding:18px;border-left:3px solid var(--accent);background:var(--surface);border-radius:0 var(--radius) var(--radius) 0;font-size:16px;line-height:1.5}
+.decisions{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.decisions div{padding:20px;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface)}
+.decisions h3{margin:0 0 6px;font:700 17px/1.3 var(--display)}
+.decisions p{margin:0;color:var(--muted);font-size:15px}
+@media (max-width:860px){.summary .impact.three,.quotes,.decisions{grid-template-columns:1fr}.steps{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.steps{grid-template-columns:1fr}}
+</style></head><body><a class="skip" href="#main">Skip to&nbsp;content</a>
+<header class="nav"><div class="wrap"><a class="logo" href="index.html">Svitlana Ohar</a>
+<nav aria-label="Main"><ul><li class="hide-s"><a href="index.html#expertise">Expertise</a></li><li><a href="index.html#projects">Projects</a></li><li class="hide-s"><a href="index.html#testimonial">Testimonial</a></li><li class="hide-s"><a href="index.html#about">About</a></li><li><a href="index.html#contact">Contact</a></li></ul></nav></div></header>
+<main id="main">
+<div class="case-hero"><div class="wrap">
+<a class="back" href="index.html#projects"><svg class="ico-arr" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 8H3M7 4L3 8l4 4"/></svg>All projects</a>
+<div class="tags"><span class="tag">Concept</span><span class="tag">Food delivery</span><span class="tag">iOS app</span><span class="tag">Solo</span></div>
+<h1>Ordering coffee at&nbsp;your desk without surprises at&nbsp;checkout</h1>
+<p class="lead">Doorbite is&nbsp;a&nbsp;coffee and&nbsp;food delivery app for&nbsp;people in&nbsp;Stockholm who work or&nbsp;study at&nbsp;a&nbsp;desk. I&nbsp;ran it&nbsp;like a&nbsp;client project&nbsp;— from&nbsp;a&nbsp;brief with&nbsp;success metrics to&nbsp;research, an&nbsp;MVP scope, a&nbsp;design system and&nbsp;usability tests. Research pointed to&nbsp;one main problem: the&nbsp;total price and&nbsp;delivery time become clear too late. So&nbsp;the&nbsp;cart and&nbsp;checkout became the&nbsp;core of&nbsp;the&nbsp;design.</p>
+<div class="btns"><a class="btn primary" href="https://www.figma.com/design/qA73Kt5GCuSkG4vziXad3X/Mobile-app-delivery?node-id=107-8059" target="_blank" rel="noopener">Designs in&nbsp;Figma<svg class="ico-arr" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11L11 5M6 5h5v5"/></svg></a></div>
+<p class="roles-note" style="max-width:66ch">Before moving to&nbsp;Sweden, I&nbsp;designed a&nbsp;food delivery app for&nbsp;a&nbsp;client in&nbsp;Ukraine&nbsp;— as&nbsp;the&nbsp;only designer, working with&nbsp;the&nbsp;developers and&nbsp;running user surveys. That&nbsp;work is&nbsp;under NDA, so&nbsp;Doorbite is&nbsp;a&nbsp;concept built on&nbsp;the&nbsp;same experience, rethought for&nbsp;Stockholm.</p>
+<figure class="figure"><img src="img/pv-doorbite.jpg" alt="Doorbite restaurants, restaurant page and cart on three phone screens" loading="lazy"></figure>
+</div></div>
+<div class="wrap">
+
+<section class="block" aria-labelledby="s-sum"><h2 id="s-sum">Summary</h2><div class="block-body">
+<div class="summary">
+<div><h3>Objectives</h3><ul><li>Go from&nbsp;craving to&nbsp;a&nbsp;placed order in&nbsp;a&nbsp;few taps.</li><li>Make the&nbsp;total price and&nbsp;delivery time clear before paying.</li><li>Keep the&nbsp;order status clear until the&nbsp;courier arrives.</li></ul></div>
+<div><h3>Role</h3><p>Solo UI/UX designer, end to&nbsp;end</p><p style="font-weight:400;color:var(--muted)">Brief, research, MVP scope, information architecture, UI, design system, usability tests</p></div>
+<div><h3>Period &amp;&nbsp;type</h3><p>About 4&nbsp;months</p><p style="font-weight:400;color:var(--muted)">Concept for&nbsp;the&nbsp;Swedish market, run like a&nbsp;client project. iOS first.</p></div>
+<div style="grid-column:1 / -1"><h3>Key skills</h3><div class="skills"><span class="chip">Competitive analysis</span><span class="chip">Survey</span><span class="chip">Interviews</span><span class="chip">Journey mapping</span><span class="chip">MVP prioritisation</span><span class="chip">Information architecture</span><span class="chip">Design system</span><span class="chip">Usability testing</span></div></div>
+<div class="impact three">
+<div class="kpi"><b>60+</b><span>features compared with&nbsp;Wolt, Foodora and&nbsp;Uber Eats, scored by&nbsp;user value.</span></div>
+<div class="kpi"><b>15</b><span>survey respondents and&nbsp;2&nbsp;interviews with&nbsp;people who order during the&nbsp;workday.</span></div>
+<div class="kpi"><b>7&nbsp;of&nbsp;8</b><span>test tasks completed without help in&nbsp;moderated usability tests.</span></div>
+</div></div></div></section>
+
+<section class="block" aria-labelledby="s-brief"><h2 id="s-brief">Starting from&nbsp;a&nbsp;brief</h2><div class="block-body">
+<p>I&nbsp;set the&nbsp;project up the&nbsp;way a&nbsp;delivery start-up would brief a&nbsp;designer: launch an&nbsp;MVP for&nbsp;coffee and&nbsp;light food delivery to&nbsp;people at&nbsp;work, competing with&nbsp;the&nbsp;big apps on&nbsp;speed and&nbsp;clarity rather than&nbsp;catalogue size. Office employees in&nbsp;Stockholm first; one designer, about 4&nbsp;months, iOS first, GDPR.</p>
+<p><b>Success metrics, set at&nbsp;the&nbsp;start:</b> checkout conversion (the&nbsp;main one), time to&nbsp;first order, repeat orders within 30&nbsp;days and&nbsp;“Where is&nbsp;my&nbsp;order?” support contacts.</p>
+<p><b>Starting hypothesis</b> from&nbsp;reviewing Wolt, Foodora and&nbsp;Uber Eats: the&nbsp;total and&nbsp;delivery time come too late, the&nbsp;cart is&nbsp;easy to&nbsp;get wrong, and&nbsp;the&nbsp;address and&nbsp;sign-up stand before any food is&nbsp;shown.</p>
+</div></section>
+
+<section class="block" aria-labelledby="s-res"><h2 id="s-res">Checking the&nbsp;hypotheses with&nbsp;real people</h2><div class="block-body">
+<p>I&nbsp;compared more than&nbsp;60&nbsp;features in&nbsp;12&nbsp;groups&nbsp;— sign-in, location, catalogue, restaurant, dish, cart, checkout, orders, profile and&nbsp;more&nbsp;— against Wolt, Foodora and&nbsp;Uber Eats, and&nbsp;scored each by&nbsp;user value. The&nbsp;key gap: the&nbsp;total price and&nbsp;delivery time are&nbsp;hard to&nbsp;read before paying. The&nbsp;matrix also showed where Doorbite would be&nbsp;behind, such as&nbsp;Google and&nbsp;Apple sign-in, which fed the&nbsp;roadmap.</p>
+<p>Then I&nbsp;ran a&nbsp;13-question survey with&nbsp;15&nbsp;people who order coffee or&nbsp;food during the&nbsp;workday, and&nbsp;two 18-minute interviews&nbsp;— with&nbsp;an&nbsp;office employee and&nbsp;an&nbsp;IT&nbsp;specialist&nbsp;— about their last real order at&nbsp;work.</p>
+<div class="stat"><b>7&nbsp;of&nbsp;15</b><span>named the&nbsp;total with&nbsp;fees and&nbsp;delivery as&nbsp;the&nbsp;main reason they left an&nbsp;order unfinished; 4&nbsp;named a&nbsp;long wait.</span></div>
+<p>Swish was the&nbsp;most common way to&nbsp;pay (7&nbsp;of&nbsp;15, then Apple Pay 4, saved card 3), and&nbsp;8&nbsp;of&nbsp;15&nbsp;reorder the&nbsp;same thing often or&nbsp;almost always.</p>
+<div class="quotes"><blockquote>“Coffee and&nbsp;a&nbsp;pastry seemed cheap until delivery was added.”</blockquote><blockquote>“I’d rather see an&nbsp;honest time range than&nbsp;a&nbsp;promise of&nbsp;20&nbsp;minutes that&nbsp;keeps moving.”</blockquote><blockquote>“Show the&nbsp;honest full total earlier.”</blockquote></div>
+<p class="note"><b>Limits.</b> With&nbsp;15&nbsp;answers, these numbers show direction, not&nbsp;proportions for&nbsp;all of&nbsp;Stockholm. I&nbsp;used them to&nbsp;choose what to&nbsp;design and&nbsp;test, not&nbsp;as&nbsp;proof.</p>
+</div></section>
+
+<section class="block" aria-labelledby="s-def"><h2 id="s-def">What really matters</h2><div class="block-body">
+<p>I&nbsp;mapped a&nbsp;13-step customer journey from&nbsp;first launch to&nbsp;rating the&nbsp;order. The&nbsp;biggest friction cluster was the&nbsp;waiting stage: no&nbsp;clear order status, no&nbsp;easy way to&nbsp;contact anyone&nbsp;— “Where's my&nbsp;order?”. Together with&nbsp;the&nbsp;research, the&nbsp;journey map gave five insights, each turned into&nbsp;a&nbsp;design decision:</p>
+<figure class="figure"><img src="img/db-p-cjm2.jpg" alt="Part of the customer journey map: from checkout to rating the order" loading="lazy"><figcaption>Part of&nbsp;the&nbsp;customer journey map: from&nbsp;checkout to&nbsp;rating the&nbsp;order</figcaption></figure>
+<div class="findings"><div class="finding"><div class="row"><span class="n">1</span></div><b>Asking for&nbsp;the&nbsp;address before showing food feels like a&nbsp;barrier</b><p><em>Design decision:</em> Explain why the&nbsp;address is&nbsp;needed, detect it&nbsp;automatically and&nbsp;keep it&nbsp;to&nbsp;one step.</p></div><div class="finding"><div class="row"><span class="n">2</span></div><b>The&nbsp;cart is&nbsp;where people hesitate and&nbsp;make mistakes</b><p><em>Design decision:</em> Visible actions to&nbsp;change and&nbsp;remove items, and&nbsp;a&nbsp;confirmation before clearing the&nbsp;cart.</p></div><div class="finding"><div class="row"><span class="n">3</span></div><b>Unclear price and&nbsp;delivery time stop people at&nbsp;checkout</b><p><em>Design decision:</em> The&nbsp;total with&nbsp;delivery before payment, a&nbsp;delivery time range and&nbsp;a&nbsp;live order status.</p></div><div class="finding"><div class="row"><span class="n">4</span></div><b>Registration right before the&nbsp;first order loses impatient users</b><p><em>Design decision:</em> A&nbsp;short email sign-up, a&nbsp;note that&nbsp;data is&nbsp;protected, and&nbsp;a&nbsp;Skip option.</p></div><div class="finding"><div class="row"><span class="n">5</span></div><b>Office users reorder the&nbsp;same things</b><p><em>Design decision:</em> Favourites, repeat order, saved cards and&nbsp;addresses.</p></div></div>
+</div></section>
+
+<section class="block" aria-labelledby="s-dec"><h2 id="s-dec">Options and&nbsp;trade-offs</h2><div class="block-body">
+<p>I&nbsp;scored every feature from&nbsp;1&nbsp;to&nbsp;5&nbsp;by&nbsp;user value and&nbsp;split them into&nbsp;Must have (MVP), Should have, Gap to&nbsp;close and&nbsp;Later. The&nbsp;must-have group covers the&nbsp;whole path from&nbsp;first launch to&nbsp;a&nbsp;tracked order. Four decisions shaped it:</p>
+<figure class="figure"><img src="img/db-p-mvp.jpg" alt="MVP prioritisation: must have, should have, gap to close and later" loading="lazy"><figcaption>MVP prioritisation: must have, should have, gap to&nbsp;close and&nbsp;later</figcaption></figure>
+<div class="decisions">
+<div><h3>Address: first or&nbsp;later?</h3><p>Later would show food sooner, but&nbsp;delivery time, fees and&nbsp;which cafés deliver depend on&nbsp;the&nbsp;address. I&nbsp;kept it&nbsp;early but&nbsp;made it&nbsp;one step, detected automatically, with&nbsp;a&nbsp;short reason.</p></div>
+<div><h3>Sign-up or&nbsp;guest?</h3><p>Guest checkout is&nbsp;fastest, but&nbsp;the&nbsp;app needs a&nbsp;way to&nbsp;show the&nbsp;order status. A&nbsp;short email sign-up with&nbsp;Skip to&nbsp;browse first; Google and&nbsp;Apple sign-in moved to&nbsp;the&nbsp;first update.</p></div>
+<div><h3>As&nbsp;soon as&nbsp;possible or&nbsp;a&nbsp;time slot?</h3><p>At&nbsp;work, people want coffee now. The&nbsp;MVP shows a&nbsp;delivery time range (15–20&nbsp;minutes); choosing a&nbsp;time is&nbsp;on&nbsp;the&nbsp;“Gap to&nbsp;close” list.</p></div>
+<div><h3>Which payment first?</h3><p>Swish is&nbsp;the&nbsp;usual way to&nbsp;pay by&nbsp;phone in&nbsp;Sweden, so&nbsp;it&nbsp;comes first, then Apple Pay and&nbsp;saved cards. Cash on&nbsp;delivery was left out.</p></div>
+</div>
+<p><b>Left out of&nbsp;the&nbsp;MVP:</b> pickup, scheduled orders and&nbsp;a&nbsp;delivery cost calculator (planned next), and&nbsp;invite friends, become a&nbsp;courier or&nbsp;partner café&nbsp;— not&nbsp;part of&nbsp;the&nbsp;core order flow.</p>
+</div></section>
+
+<section class="block" aria-labelledby="s-first"><h2 id="s-first">From&nbsp;first launch to&nbsp;the&nbsp;cart</h2><div class="block-body">
+<p>Onboarding can be&nbsp;skipped, the&nbsp;address is&nbsp;one step, and&nbsp;the&nbsp;catalogue shows delivery time and&nbsp;rating on&nbsp;every card. Filters sort by&nbsp;popularity, rating, price or&nbsp;delivery speed; the&nbsp;restaurant page shows delivery time and&nbsp;cost up front, and&nbsp;the&nbsp;product sheet makes the&nbsp;size and&nbsp;its&nbsp;price explicit.</p>
+<figure class="figure"><img src="img/db-c-discover.jpg" alt="Catalogue, filters and sorting, restaurant page and product sheet with sizes" loading="lazy"><figcaption>Catalogue, filters and&nbsp;sorting, restaurant page and&nbsp;product sheet with&nbsp;sizes</figcaption></figure>
+</div></section>
+
+<section class="block" aria-labelledby="s-cart"><h2 id="s-cart">A&nbsp;cart that's hard to&nbsp;get wrong</h2><div class="block-body">
+<p>Every item has a&nbsp;clear red delete button and&nbsp;a&nbsp;quantity stepper. Delivery and&nbsp;the&nbsp;total are&nbsp;shown right in&nbsp;the&nbsp;cart, before checkout. Clearing the&nbsp;whole cart asks for&nbsp;confirmation, and&nbsp;a&nbsp;small add-on like a&nbsp;croissant is&nbsp;suggested below the&nbsp;order&nbsp;— it&nbsp;raises the&nbsp;average order value for&nbsp;the&nbsp;business.</p>
+<figure class="figure"><img src="img/db-c-cart.jpg" alt="Cart with delivery and total, confirmation before clearing, empty state" loading="lazy"><figcaption>Cart with&nbsp;delivery and&nbsp;total, confirmation before clearing, empty state</figcaption></figure>
+</div></section>
+
+<section class="block" aria-labelledby="s-check"><h2 id="s-check">No&nbsp;surprises at&nbsp;checkout</h2><div class="block-body">
+<p>The&nbsp;delivery time is&nbsp;shown as&nbsp;an&nbsp;estimated range next to&nbsp;the&nbsp;address and&nbsp;door details. Before paying, an&nbsp;order summary lists delivery, discount and&nbsp;total&nbsp;— and&nbsp;the&nbsp;amount on&nbsp;the&nbsp;Pay button always matches it. Swish comes first among payment methods.</p>
+<figure class="figure"><img src="img/db-c-checkout.jpg" alt="Checkout with order summary and payment methods; order placed" loading="lazy"><figcaption>Checkout with&nbsp;order summary and&nbsp;payment methods; order placed</figcaption></figure>
+</div></section>
+
+<section class="block" aria-labelledby="s-ord"><h2 id="s-ord">Answering “Where's my&nbsp;order?”</h2><div class="block-body">
+<p>The&nbsp;active order has a&nbsp;Track order button. The&nbsp;order status follows each step, from&nbsp;“Awaiting confirmation” to&nbsp;“Delivered”, with&nbsp;the&nbsp;delivery time, cost and&nbsp;items on&nbsp;one screen&nbsp;— plus cancel and&nbsp;contact actions. A&nbsp;delivered order can be&nbsp;repeated in&nbsp;one tap, for&nbsp;people who order the&nbsp;same thing every day.</p>
+<figure class="figure"><img src="img/db-c-orders.jpg" alt="My orders, live order status, order details and repeat order" loading="lazy"><figcaption>My&nbsp;orders, live order status, order details and&nbsp;repeat order</figcaption></figure>
+</div></section>
+
+<section class="block" aria-labelledby="s-ds"><h2 id="s-ds">One system, two themes</h2><div class="block-body">
+<p>I&nbsp;built a&nbsp;design system in&nbsp;Figma that&nbsp;holds 40+ screens in&nbsp;light and&nbsp;dark themes: 74&nbsp;variables in&nbsp;three collections (primitives, semantic colours with&nbsp;Light and&nbsp;Dark modes, spacing and&nbsp;radius), 16&nbsp;text styles on&nbsp;Inter and&nbsp;11&nbsp;own components with&nbsp;26&nbsp;variants&nbsp;— from&nbsp;buttons and&nbsp;inputs to&nbsp;the&nbsp;product card, quantity stepper and&nbsp;the&nbsp;action bar with&nbsp;the&nbsp;total. Screens use semantic tokens, so&nbsp;switching the&nbsp;theme is&nbsp;one mode change.</p>
+<p>Six usage rules came straight from&nbsp;the&nbsp;research: the&nbsp;total is&nbsp;always on&nbsp;the&nbsp;Pay button, delete looks like delete, the&nbsp;delivery time is&nbsp;an&nbsp;estimate (not&nbsp;a&nbsp;field), one green action per&nbsp;screen, tokens instead of&nbsp;hex, and&nbsp;Swish first.</p>
+<figure class="figure"><img src="img/db-c-themes.jpg" alt="The same screens in light and dark themes" loading="lazy"><figcaption>The&nbsp;same screens in&nbsp;light and&nbsp;dark themes</figcaption></figure>
+</div></section>
+
+<section class="block" aria-labelledby="s-test"><h2 id="s-test">Testing with&nbsp;real users</h2><div class="block-body">
+<p>First, an&nbsp;expert walkthrough of&nbsp;six target tasks found three likely failures, and&nbsp;I&nbsp;fixed them before testing: the&nbsp;pale delete icon became a&nbsp;larger red button, checkout got an&nbsp;order summary before Pay, and&nbsp;the&nbsp;active order got a&nbsp;Track order button.</p>
+<p>Then the&nbsp;two interviewees tested the&nbsp;prototype, thinking aloud, with&nbsp;four tasks: order a&nbsp;Grande cappuccino, remove a&nbsp;latte from&nbsp;the&nbsp;cart, check out with&nbsp;Swish while saying the&nbsp;total and&nbsp;delivery time, and&nbsp;find the&nbsp;order status.</p>
+<div class="stat"><b>7 / 8</b><span>tasks completed without help, 1&nbsp;with&nbsp;a&nbsp;neutral hint. Average perceived ease: 4.9 / 7.</span></div>
+<div class="findings"><div class="finding"><div class="row"><span class="n">1</span><span class="sev">1&nbsp;of&nbsp;2</span></div><b>Total price</b><p>One participant first named the&nbsp;item price without delivery: “Oh, delivery is&nbsp;already included? I&nbsp;was looking at&nbsp;the&nbsp;other amount.”</p><p><em>Next iteration:</em> Give “Total incl. delivery” more weight than&nbsp;item prices.</p></div><div class="finding"><div class="row"><span class="n">2</span><span class="sev">1&nbsp;of&nbsp;2</span></div><b>Delivery time</b><p>The&nbsp;time range was read as&nbsp;a&nbsp;field to&nbsp;pick a&nbsp;time: “Is&nbsp;this&nbsp;a&nbsp;time I&nbsp;can choose, or&nbsp;when it&nbsp;will roughly arrive?”</p><p><em>Next iteration:</em> Label the&nbsp;range “Estimated delivery”.</p></div></div>
+<p class="note"><b>Limits.</b> Two participants find problems, they don't measure them. The&nbsp;next round is&nbsp;planned with&nbsp;five participants and&nbsp;a&nbsp;reorder task.</p>
+</div></section>
+
+<section class="block" aria-labelledby="s-learn"><h2 id="s-learn">What I&nbsp;learned</h2><div class="block-body">
+<div class="lessons">
+<div><h3>Start from&nbsp;metrics</h3><p>Every decision came back to&nbsp;one question: does this&nbsp;help people finish an&nbsp;order faster and&nbsp;with&nbsp;fewer surprises?</p></div>
+<div><h3>A&nbsp;number needs meaning</h3><p>Tests showed something desk research missed: people need to&nbsp;understand what the&nbsp;delivery time means, not&nbsp;just see it.</p></div>
+<div><h3>Cut scope on&nbsp;purpose</h3><p>A&nbsp;priority matrix kept a&nbsp;solo project realistic, and&nbsp;one design system carried 40+ screens in&nbsp;two themes.</p></div>
+</div></div></section>
+
+<div class="cta" style="margin-block:24px 24px"><h2>Looking for&nbsp;a&nbsp;UI/UX designer in&nbsp;Sweden?</h2><div class="btns"><a class="btn primary" href="index.html#contact">Get in&nbsp;touch</a><a class="btn" href="https://www.linkedin.com/in/svitlana-ohar-859025243/" target="_blank" rel="noopener">LinkedIn<svg class="ico-arr" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11L11 5M6 5h5v5"/></svg></a></div></div>
+<div style="padding-block:8px 72px"><a class="next" href="lagom.html"><span><small>Next project</small><b style="font:700 20px var(--display)">Lagom&nbsp;— Clearer everyday banking for&nbsp;Sweden</b></span><span class="more"><svg class="ico-arr" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></a></div>
+</div></main>
+<footer><div class="wrap"><span>© 2026&nbsp;Svitlana Ohar · UI/UX Designer · Stockholm</span><a href="https://www.linkedin.com/in/svitlana-ohar-859025243/" target="_blank" rel="noopener">LinkedIn<svg class="ico-arr" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11L11 5M6 5h5v5"/></svg></a></div></footer></body></html>
